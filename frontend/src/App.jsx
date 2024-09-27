@@ -2,10 +2,14 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import Employee from './pages/employee'
 import Admin from './pages/admin'
 import Login from './pages/login'
+import Header from '@/components/global/header'
+import Sidebar from '@/components/global/sidebar'
 
 function App() {
   return (
     <>
+    <Header/>
+    <Sidebar/>
       <BrowserRouter>
         <Routes>
           <Route path='/login/*' element={<Login />} />
