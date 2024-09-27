@@ -1,13 +1,11 @@
 import React from 'react'
 import { Routes, Route } from 'react-router-dom'
-import LoginPage from './loginMail'
-import LoginOtp from './loginOtp'
+import LoginPage from './login'
 
 const index = () => {
     return (
         <Routes>
             <Route element={<LoginPage />} path='/' />
-            <Route element={<LoginOtp />} path='/verification' />
         </Routes>
     )
 }
