@@ -1,14 +1,14 @@
 import React from 'react'
 import { Routes, Route } from 'react-router-dom'
 import Dasboard from './Dasboard'
-import All from './All'
+// import All from './All'
 
 const index = () => {
   return (
-    <div>
+    <div >
       <Routes>
         <Route path='/' element={<Dasboard/>}/>
-        <Route path='/all' element={<All/>}/>
+        {/* <Route path='/all' element={<All/>}/> */}
       </Routes>
     </div>
   )

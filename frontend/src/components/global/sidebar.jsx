@@ -2,7 +2,34 @@ import React from 'react'
 
 const Sidebar = () => {
     return (
-        <div>sidebar</div>
+        <>
+        <div className="flex flex-col items-center w-[200px] gap-[10px] h-[calc(100vh-5rem)] m-[10px] fixed top-[4rem] bg-black rounded-lg">
+          <img src="logo.svg" alt="logo" className='my-10 w-20' />
+
+          {/* Profile section */}
+          <div className='flex flex-row items-center w-[174px] h-[64px]'>
+            <img src="avatar.png" alt="avatar" />
+            <div className='flex flex-col justify-center px-4 text-[#515151]'>
+              <h2 className='text-sm'>admin</h2> 
+              <h1 className='text-md'>Thiru</h1>
+            </div>
+          </div>
+
+          {/* Dashboard link */}
+          <div className='my-[15px] text-[#6C6C6C] self-start pl-4'>
+            <div className="flex items-center">
+              <span className='h-6 border-l-2 border-[#6C6C6C] mr-2'></span>
+              <h2>Dashboard</h2>
+            </div>
+          </div>
+
+          {/* Spacer to push logout to the bottom */}
+          <div className="flex-grow"></div>
+
+          {/* Logout icon */}
+          <img src="logout.png" alt="logout" className='my-[20px]' />
+        </div>
+        </>
     )
 }
 
