@@ -9,6 +9,7 @@ import logo from '@/assets/images/logo.png'
 import aero from '@/assets/images/aero-1.png'
 import city from '@/assets/images/city.png'
 import cab from '@/assets/images/cab.png'
+import OtpLogin from "@/components/global/otp"
 
 export default function LoginPage() {
     const [isOtpSent, setIsOtpSent] = useState(false)
@@ -52,7 +53,7 @@ export default function LoginPage() {
             {/* Right side with login form */}
             <div className="w-full bg-[#ECF3F9] flex flex-col items-center justify-center p-8 relative">
                 <h1 className="text-3xl font-bold mb-14 text-gray-700">Login</h1>
-                <Form {...form}>
+                {/* <Form {...form}>
                     <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-14 w-full max-w-xl flex flex-col">
                         <FormField
                             control={form.control}
@@ -70,11 +71,13 @@ export default function LoginPage() {
                             {isOtpSent ? "Resend OTP" : "Generate OTP"}
                         </Button>
                     </form>
-                </Form>
+                </Form> */}
 
                 {isOtpSent && (
                     <p className="mt-4 text-green-600">OTP has been sent to your email address.</p>
                 )}
+
+                <OtpLogin />
 
                 <div className="text-center absolute bottom-32">
 
@@ -94,7 +97,11 @@ export default function LoginPage() {
                             />
                         </div>
                         <div className="bg-[#0C263C] p-3 rounded-full">
-
+                            <img
+                                src={cab}
+                                alt="Airplane silhouette"
+                                className="h-10 w-10"
+                            />
                         </div>
                     </div>
                     <p className="mt-6 text-gray-600">One stop Flight, Cab, and Hotel Booking Platform</p>
