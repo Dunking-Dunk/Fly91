@@ -94,11 +94,7 @@ export default function LoginPage() {
                             />
                         </div>
                         <div className="bg-[#0C263C] p-3 rounded-full">
-                            <img
-                                src={cab}
-                                alt="Airplane silhouette"
-                                className="h-8 w-10"
-                            />
+
                         </div>
                     </div>
                     <p className="mt-6 text-gray-600">One stop Flight, Cab, and Hotel Booking Platform</p>
