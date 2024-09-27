@@ -1,11 +1,19 @@
 import './App.css'
-import { Button } from './components/ui/button'
+import { BrowserRouter, Routes, Route } from 'react-router-dom'
+import Employee from './pages/employee'
+import Admin from './pages/admin'
 
 function App() {
   return (
-    <div>
-      <Button>hello</Button>
-    </div>
+    <>
+      <BrowserRouter>
+      <Routes>
+        <Route path='/*' element={<Employee/>}/>
+        <Route path='/admin/*' element={<Admin/>}/>
+      </Routes>
+    </BrowserRouter>
+    </>
+
   )
 }
 
