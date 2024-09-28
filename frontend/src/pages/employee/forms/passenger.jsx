@@ -69,11 +69,11 @@ export default function PassengerDetails() {
   };
 
   return (
-    <div className="flex min-h-screen ">
-      <main className="flex-1 p-8 bg-slate-100">
+    <div className="flex min-h-screen bg-[#E4F6FD] p-4 pt-16">
+      <main className="flex-1 pl-64">
         <Card>
-          <div className="p-10">
-            <div className="w-full mt-7 p-20 bg-gray-100 rounded">
+          <div className="p-25">
+            <div className="w-full mb-8 bg-white  rounded">
               <Card className="w-full max-w-4xl mx-auto max-h6 mt-12 bg-gray-50 rounded-md">
                 <CardHeader>
                   <CardTitle>Passenger Details</CardTitle>
@@ -335,25 +335,7 @@ export default function PassengerDetails() {
                     )}
 
                     <div className="flex justify-end items-center space-x-4 mt-5 mr-5 h-10">
-        <Button 
-              className="w-40 flex bg-yellow-500 hover:bg-yellow-600 rounded p-6 "
-              onClick={() =>
-                setFormData({
-                  firstName: "",
-                  lastName: "",
-                  employeeId: "",
-                  department: "",
-                  mobileNumber: "",
-                  email: "",
-                  reasonForTravel: "",
-                  hodApprovalDocument: null,
-                })
-              }
-            >
-              Back
-            </Button>
-            <Button onClick={handleSubmit}
-              className="w-40 flex bg-green-500 hover:bg-green-600 h-full rounded p-6" >Proceed</Button>
+       
         </div>
 
 
@@ -361,6 +343,35 @@ export default function PassengerDetails() {
                   </form>
                 </CardContent>
               </Card>
+
+              <div className="flex justify-end items-center space-x-4 mt-5 mr-5">
+  <Button
+    className="w-40 bg-yellow-500 hover:bg-yellow-600 rounded p-6"
+    onClick={() =>
+      setFormData({
+        firstName: "",
+        lastName: "",
+        employeeId: "",
+        department: "",
+        mobileNumber: "",
+        email: "",
+        reasonForTravel: "",
+        hodApprovalDocument: null,
+      })
+    }
+  >
+    Back
+  </Button>
+
+  <Button
+    onClick={handleSubmit}
+    className="w-40 bg-green-500 hover:bg-green-600 rounded p-6"
+  >
+    Proceed
+  </Button>
+</div>
+
+
             </div>
           </div>
         </Card>
