@@ -2,8 +2,8 @@ import React from 'react'
 
 const Dasboard = () => {
   return (
-    <div>
-        dashboard employee
+    <div className='h-[200vh]'>
+      dashboard employee
     </div>
   )
 }
