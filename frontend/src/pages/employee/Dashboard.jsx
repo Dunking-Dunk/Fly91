@@ -80,7 +80,7 @@ const Dashboard = () => {
       <div className="mt-4 flex justify-end">
         <Button
           className="bg-yellow-500 hover:bg-yellow-600 text-white px-10 py-5"
-          onClick={() => navigate("/create/service")}
+          onClick={() => navigate("/service/create")}
         >
           Raise New Request
         </Button>
