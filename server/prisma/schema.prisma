@@ -173,4 +173,10 @@ model Confirmation {
   perDiemAllowance    Decimal?     @db.Decimal(10, 2)
   confirmationDate    DateTime     @default(now()) 
   serviceRequest      ServiceRequest @relation(fields: [serviceRequestID], references: [serviceRequestID])
+model Otp {
+    id        Int      @id @default(autoincrement())
+    otp       String
+    userId    Int      @unique
+    user      User     @relation(fields: [userId], references: [id])
+    expiresAt DateTime
 }
