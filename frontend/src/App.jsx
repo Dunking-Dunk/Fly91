@@ -2,12 +2,6 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Employee from "./pages/employee";
 import Admin from "./pages/admin";
 import Login from "./pages/login";
-import Error from "./pages/error";
-import Rflight from "./pages/employee/review/flight";
-import Rhotel from "./pages/employee/review/hotel";
-import Rcab from "./pages/employee/review/cab";
-import BookingForm from "./pages/employee/status";
-import ServiceForm from './components/form/employee/serviceforms/ServiceForm'
 
 function App() {
   return (
@@ -17,13 +11,6 @@ function App() {
           <Route path="/login/*" element={<Login />} />
           <Route path="/*" element={<Employee />} />
           <Route path="/admin/*" element={<Admin />} />
-          <Route path="/error" element={<Error />} />
-          <Route path="/rflight" element={<Rflight />} />
-          <Route path="/rhotel" element={<Rhotel />} />
-          <Route path="/rcab" element={<Rcab />} />
-          <Route path="/sbook" element={<BookingForm />} />
-          
-          <Route path='/serviceform'  element={<ServiceForm />} />
         </Routes>
       </BrowserRouter>
     </>
