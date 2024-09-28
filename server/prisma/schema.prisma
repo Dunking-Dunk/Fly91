@@ -15,6 +15,7 @@ model User {
   employee Employee?
   vendor   Vendor?
   admin    Admin?
+  otps     Otp[]    
 }
 
 model Employee {
@@ -44,6 +45,14 @@ model Admin {
   role        String
   permissions String?
 }
+model Otp {
+  id        Int      @id @default(autoincrement())
+  otp       String
+  userId    Int
+  user      User     @relation(fields: [userId], references: [id])
+  expiresAt DateTime
+}
+
 
 enum UserType {
   EMPLOYEE
