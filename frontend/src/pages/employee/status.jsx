@@ -1,11 +1,10 @@
 import React from 'react';
-
 export default function Fly91BookingForm() {
   // Assume this date is fetched from a database
   const submissionDate = new Date('2024-12-24T15:23:00');
 
   return (
-    <div className="min-h-screen bg-gray-100 p-4">
+    <div className="min-h-screen bg-[#E4F6FD] p-4 pt-16 ">
       <div className="w-full max-w-3xl mx-auto bg-white shadow-md rounded-lg overflow-hidden">
         {/* Header Section */}
         <div className="p-6 bg-gray-200">
@@ -59,7 +58,7 @@ export default function Fly91BookingForm() {
 
             {/* Request Tracking */}
             <div className="bg-gray-100 p-6 rounded-lg shadow-sm">
-              <h3 className="text-lg font-semibold mb-4">Request Tracking</h3>
+              <h3 className="text-lg  mb-4">Request Tracking</h3>
               <div className="bg-white p-4 rounded-lg shadow-sm border border-gray-200">
                 <div className="relative">
                   {/* Progress Bar and Step Indicators */}
