@@ -26,34 +26,34 @@ import { addDays, format } from "date-fns";
 export default function TableComponent() {
   const initialRequests = [
     {
-      srn: 'SRN12345',
-      service: 'Web Development',
-      requestRaised: '2024-09-01',
-      fulfilled: '2024-09-05',
-      status: 'Completed',
+      srn: "SRN12345",
+      service: "Web Development",
+      requestRaised: "2024-09-01",
+      fulfilled: "2024-09-05",
+      status: "Completed",
     },
     {
-      srn: 'SRN67890',
-      service: 'App Design',
-      requestRaised: '2024-09-10',
-      fulfilled: '',
-      status: 'Pending',
+      srn: "SRN67890",
+      service: "App Design",
+      requestRaised: "2024-09-10",
+      fulfilled: "",
+      status: "Pending",
     },
     {
-      srn: 'SRN11223',
-      service: 'SEO Optimization',
-      requestRaised: '2024-09-07',
-      fulfilled: '2024-09-15',
-      status: 'Completed',
+      srn: "SRN11223",
+      service: "SEO Optimization",
+      requestRaised: "2024-09-07",
+      fulfilled: "2024-09-15",
+      status: "Completed",
     },
     {
-      srn: 'SRN44556',
-      service: 'API Integration',
-      requestRaised: '2024-09-12',
-      fulfilled: '',
-      status: 'Confirmed',
+      srn: "SRN44556",
+      service: "API Integration",
+      requestRaised: "2024-09-12",
+      fulfilled: "",
+      status: "Confirmed",
     },
-  ]
+  ];
   const [requests, setRequests] = useState();
   const [filterType, setFilterType] = useState("All");
   const [sortConfig, setSortConfig] = useState({ key: null, direction: "asc" });
@@ -61,8 +61,6 @@ export default function TableComponent() {
     addDays(new Date(), -30),
     new Date(),
   ]);
-
-  
 
   const navigate = useNavigate();
 
@@ -260,9 +258,7 @@ export default function TableComponent() {
                 <TableCell className="px-8 py-6">
                   {request.requestRaised}
                 </TableCell>
-                <TableCell className="px-8 py-6">
-                  {request.fulfilled}
-                </TableCell>
+                <TableCell className="px-8 py-6">{request.fulfilled}</TableCell>
                 <TableCell className="px-8 py-6">
                   <span
                     className={`px-2 py-1 rounded-full text-xs ${
