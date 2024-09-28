@@ -119,7 +119,7 @@ router.post("/verify", async (req, res) => {
 
 
         return res.status(200)
-            .cookie("Authorization", `Bearer ${token}`, { httpOnly: true })
+            .cookie("auth", `${token}`, { httpOnly: true })
             .send("OKOK")
 
 
