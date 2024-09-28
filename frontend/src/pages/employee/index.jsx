@@ -1,12 +1,42 @@
 import React from "react";
 import { Routes, Route } from "react-router-dom";
 import Dasboard from "./Dasboard";
+import Status from "./status";
+import Sidebar from "@/components/global/sidebar";
+import Header from "@/components/global/header";
+import SuccessPage from "./forms/success";
+import Profile from "./profile";
+import Data from "../../components/global/data";
+import PassengerDetails from "./forms/passenger";
+
+import Service from "./forms/service";
+import Error from "@/pages/error";
+import Rflight from "./review/flight";
+import Rhotel from "./review/hotel";
+import Rcab from "./review/cab";
+import BookingForm from "./status";
+import ServiceForm from "@/components/form/employee/serviceforms/ServiceForm";
 
 const index = () => {
   return (
     <div>
+      <Sidebar />
+      <Header />
       <Routes>
-        <Route path="/" element={<Dasboard />} />
+        <Route path="/" element={<Data />} />
+        <Route path="/dashboard" element={<Data />} />
+        <Route path="/status" element={<Status />} />
+        {/* <Route path="/create/service" element={<Service />} /> */}
+        <Route path="/error" element={<Error />} />
+        <Route path="/review-flight" element={<Rflight />} />
+        <Route path="/review-hotel" element={<Rhotel />} />
+        <Route path="/review-cab" element={<Rcab />} />
+        <Route path="/booking-summary" element={<BookingForm />} />
+        <Route path="/serviceform" element={<ServiceForm />} />
+        <Route path="/success" element={<SuccessPage />} />
+        <Route path="/profile" element={<Profile />} />
+        {/* <Route path="/data" element={<Data />} /> */}
+        <Route path="/details" element={<PassengerDetails />} />
       </Routes>
     </div>
   );
