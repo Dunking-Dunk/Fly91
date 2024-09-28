@@ -1,11 +1,11 @@
-import { useState } from "react"
-import { useForm, Controller } from "react-hook-form"
-import { zodResolver } from "@hookform/resolvers/zod"
-import * as z from "zod"
-import { Label } from "@/components/ui/label"
-import { Input } from "@/components/ui/input"
-import { Checkbox } from "@/components/ui/checkbox"
-import { Button } from "@/components/ui/button"
+import { useState } from "react";
+import { useForm, Controller } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import * as z from "zod";
+import { Label } from "@/components/ui/label";
+import { Input } from "@/components/ui/input";
+import { Checkbox } from "@/components/ui/checkbox";
+import { Button } from "@/components/ui/button";
 
 // Zod validation schema
 const hotelFormSchema = z.object({
@@ -26,36 +26,36 @@ const hotelFormSchema = z.object({
     }),
   departureTime: z.string().optional(),
   arrivalTime: z.string().optional(),
-})
+});
 
 export default function HotelForm({ onShowBanner }) {
-  const [showWarning, setShowWarning] = useState(false)
+  const [showWarning, setShowWarning] = useState(false);
 
   const { control, handleSubmit, setValue } = useForm({
     resolver: zodResolver(hotelFormSchema),
     defaultValues: {
       origin: "",
       departure: "",
-      enableCalendar: false,    
+      enableCalendar: false,
       departureDate: "",
       arrivalDate: "",
       departureTime: "",
       arrivalTime: "",
     },
-  })
+  });
 
   const handleEnableCalendar = (checked) => {
-    setValue("enableCalendar", checked)
-    setShowWarning(checked) 
-  }
+    setValue("enableCalendar", checked);
+    setShowWarning(checked);
+  };
 
   const onSubmit = (data) => {
     if (showWarning) {
-      onShowBanner()
+      onShowBanner();
     } else {
-      console.log("Proceeding with review", data)
+      console.log("Proceeding with review", data);
     }
-  }
+  };
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
@@ -86,17 +86,21 @@ export default function HotelForm({ onShowBanner }) {
             name="enableCalendar"
             control={control}
             render={({ field }) => (
-              <Checkbox 
-                id="enableCalendarHotel" 
+              <Checkbox
+                id="enableCalendarHotel"
                 onCheckedChange={handleEnableCalendar}
                 checked={field.value}
               />
             )}
           />
-          <Label htmlFor="enableCalendarHotel">Enable Calendar from Tomorrow</Label>
+          <Label htmlFor="enableCalendarHotel">
+            Enable Calendar from Tomorrow
+          </Label>
         </div>
         {showWarning && (
-          <span className="text-red-500 text-xs">*The copy of this request will be sent to CEO</span>
+          <span className="text-red-500 text-xs">
+            *The copy of this request will be sent to CEO
+          </span>
         )}
       </div>
 
@@ -142,9 +146,19 @@ export default function HotelForm({ onShowBanner }) {
       </div>
 
       <div className="flex ml-auto w-1/2 space-x-4">
-        <Button type="button" className="flex-1 p-6 bg-yellow-500 hover:bg-yellow-600">Book</Button>
-        <Button type="submit" className="flex-1 p-6 bg-green-500 hover:bg-green-600">Review</Button>
+        <Button
+          type="button"
+          className="flex-1 p-6 bg-yellow-500 hover:bg-yellow-600"
+        >
+          Back
+        </Button>
+        <Button
+          type="submit"
+          className="flex-1 p-6 bg-green-500 hover:bg-green-600"
+        >
+          Review
+        </Button>
       </div>
     </form>
-  )
+  );
 }

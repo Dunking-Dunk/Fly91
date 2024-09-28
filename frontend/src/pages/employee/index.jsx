@@ -4,6 +4,9 @@ import Dasboard from "./Dasboard";
 import Status from "./status";
 import Sidebar from "@/components/global/sidebar";
 import Header from "@/components/global/header";
+import SuccessPage from "./forms/success";
+import Profile from "./profile";
+import Data from "../../components/global/data";
 
 import Service from "./forms/service";
 import Error from "@/pages/error";
@@ -19,7 +22,7 @@ const index = () => {
       <Sidebar />
       <Header />
       <Routes>
-        <Route path="/" element={<Dasboard />} />
+        <Route path="/" element={<Data />} />
         <Route path="/status" element={<Status />} />
         <Route path="/create/service" element={<Service />} />
         <Route path="/error" element={<Error />} />
@@ -28,6 +31,9 @@ const index = () => {
         <Route path="/rcab" element={<Rcab />} />
         <Route path="/sbook" element={<BookingForm />} />
         <Route path="/serviceform" element={<ServiceForm />} />
+        <Route path="/success" element={<SuccessPage />} />
+        <Route path="/pro" element={<Profile />} />
+        {/* <Route path="/data" element={<Data />} /> */}
       </Routes>
     </div>
   );
