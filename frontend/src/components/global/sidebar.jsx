@@ -3,7 +3,7 @@ import React from 'react'
 const Sidebar = () => {
     return (
         <>
-        <div className="flex flex-col items-center w-[200px] gap-[10px] h-[calc(100vh-5rem)] m-[10px] fixed top-[4rem] bg-black rounded-lg">
+        <div className="flex flex-col items-center w-[200px] gap-[10px] h-[calc(100vh-5rem)] m-[10px] fixed top-[4rem] bg-white rounded-lg">
           <img src="logo.svg" alt="logo" className='my-10 w-20' />
 
           {/* Profile section */}

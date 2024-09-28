@@ -1,5 +1,6 @@
 import Header from '@/components/global/header'
 import Sidebar from '@/components/global/sidebar'
+import TableComponent from '@/components/global/table'
 import React from 'react'
 
 const Dasboard = () => {
@@ -9,6 +10,7 @@ const Dasboard = () => {
       <Header/>
       <Sidebar/>
         {/* dashboard employee */}
+        <TableComponent/>
     </div>
   )
 }
