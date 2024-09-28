@@ -168,7 +168,6 @@ model CabRequest {
 model Confirmation {
   confirmationID      Int          @id @default(autoincrement())
   serviceRequestID    String
-  srn                 String       @db.VarChar(50) 
   serviceType         ServiceType 
   perDiemAllowance    Decimal?     @db.Decimal(10, 2)
   confirmationDate    DateTime     @default(now()) 

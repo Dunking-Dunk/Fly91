@@ -14,7 +14,7 @@ const app = express()
 // app.use(currentUser)
 // app.use(requireAuth)
 
-// app.use(employeeRouter)
+app.use(employeeRouter)
 
 app.use('/sample', sample);
 // app.use(ErrorHandler)
