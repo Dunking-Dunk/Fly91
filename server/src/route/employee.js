@@ -1,7 +1,7 @@
 import express from 'express'
 import { NotFoundError } from '../error/not-found-error.js'
 
-import { getEmployeeDashboardData } from '../controller/employee/dashboard.js'
+import { getEmployeeDashboardData, getEmployeeServiceDetails } from '../controller/employee/dashboard.js'
 import { Router } from 'express';
 
 
@@ -19,6 +19,11 @@ const router = Router();
 // })
 
 router.get('/employee/dashboard',getEmployeeDashboardData)
+
+
+
+router.get('/employee/service',getEmployeeServiceDetails)
+
 
 
 export default router
