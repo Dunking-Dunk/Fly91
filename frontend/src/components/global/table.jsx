@@ -23,8 +23,38 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { addDays, format } from "date-fns";
 
-export default function TableComponent({ initialRequests }) {
-  const [requests, setRequests] = useState([]);
+export default function TableComponent() {
+  const initialRequests = [
+    {
+      srn: 'SRN12345',
+      service: 'Web Development',
+      requestRaised: '2024-09-01',
+      fulfilled: '2024-09-05',
+      status: 'Completed',
+    },
+    {
+      srn: 'SRN67890',
+      service: 'App Design',
+      requestRaised: '2024-09-10',
+      fulfilled: '',
+      status: 'Pending',
+    },
+    {
+      srn: 'SRN11223',
+      service: 'SEO Optimization',
+      requestRaised: '2024-09-07',
+      fulfilled: '2024-09-15',
+      status: 'Completed',
+    },
+    {
+      srn: 'SRN44556',
+      service: 'API Integration',
+      requestRaised: '2024-09-12',
+      fulfilled: '',
+      status: 'Confirmed',
+    },
+  ]
+  const [requests, setRequests] = useState();
   const [filterType, setFilterType] = useState("All");
   const [sortConfig, setSortConfig] = useState({ key: null, direction: "asc" });
   const [dateRange, setDateRange] = useState([
@@ -32,13 +62,15 @@ export default function TableComponent({ initialRequests }) {
     new Date(),
   ]);
 
+  
+
   const navigate = useNavigate();
 
   useEffect(() => {
     if (initialRequests && initialRequests.length > 0) {
       setRequests(initialRequests);
     }
-  }, [initialRequests]);
+  }, []);
 
   const handleFilter = (type) => {
     setFilterType(type);
@@ -88,9 +120,8 @@ export default function TableComponent({ initialRequests }) {
   }
 
   return (
-    <div className="container flex flex-col justify-center mt-[10vh] align-middle p-4 max-w-6xl ">
+    <div className="flex flex-col justify-center align-middle p-4">
       <div className="flex justify-between items-center mb-4">
-        <h1 className="text-xl font-semibold text-gray-800">Dashboard</h1>
         <div className="flex space-x-2">
           <Button
             variant="outline"
@@ -174,7 +205,7 @@ export default function TableComponent({ initialRequests }) {
                   <ArrowUpDown className="h-4 w-4" />
                 </Button>
               </TableHead>
-              <TableHead className="px-12 py-10 font-semibold text-gray-600">
+              <TableHead className="px-12 py-8 font-semibold text-gray-600">
                 Service
                 <Button
                   variant="ghost"
@@ -184,7 +215,7 @@ export default function TableComponent({ initialRequests }) {
                   <ArrowUpDown className="h-4 w-4" />
                 </Button>
               </TableHead>
-              <TableHead className="px-12 py-10 font-semibold text-gray-600">
+              <TableHead className="px-12 py-8 font-semibold text-gray-600">
                 Request raised
                 <Button
                   variant="ghost"
@@ -194,7 +225,7 @@ export default function TableComponent({ initialRequests }) {
                   <ArrowUpDown className="h-4 w-4" />
                 </Button>
               </TableHead>
-              <TableHead className="px-12 py-10 font-semibold text-gray-600">
+              <TableHead className="px-12 py-8 font-semibold text-gray-600">
                 Fulfilled
                 <Button
                   variant="ghost"
@@ -204,7 +235,7 @@ export default function TableComponent({ initialRequests }) {
                   <ArrowUpDown className="h-4 w-4" />
                 </Button>
               </TableHead>
-              <TableHead className="px-12 py-10 font-semibold text-gray-600">
+              <TableHead className="px-12 py-8 font-semibold text-gray-600">
                 Status
                 <Button
                   variant="ghost"
@@ -217,22 +248,22 @@ export default function TableComponent({ initialRequests }) {
             </TableRow>
           </TableHeader>
           <TableBody>
-            {requests.map((request, index) => (
+            {requests?.map((request, index) => (
               <TableRow
                 key={index}
                 className={index % 2 === 0 ? "bg-white" : "bg-gray-50"}
               >
-                <TableCell className="px-8 py-10 font-medium text-blue-600">
+                <TableCell className="px-8 py-6 font-medium text-blue-600">
                   {request.srn}
                 </TableCell>
-                <TableCell className="px-8 py-10">{request.service}</TableCell>
-                <TableCell className="px-8 py-10">
+                <TableCell className="px-8 py-6">{request.service}</TableCell>
+                <TableCell className="px-8 py-6">
                   {request.requestRaised}
                 </TableCell>
-                <TableCell className="px-8 py-10">
+                <TableCell className="px-8 py-6">
                   {request.fulfilled}
                 </TableCell>
-                <TableCell className="px-8 py-10">
+                <TableCell className="px-8 py-6">
                   <span
                     className={`px-2 py-1 rounded-full text-xs ${
                       request.status === "Completed"
