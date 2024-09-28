@@ -8,9 +8,9 @@ import { requireAuth } from "./src/middleware/require-auth.js";
 import sample from "./src/route/sample.js";
 import login from "./src/route/login.js";
 
-const app = express();
+const app = express()
 
-app.use(express.json());
+app.use(express.json())
 
 // app.use(currentUser);
 // app.use(requireAuth);

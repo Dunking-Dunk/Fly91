@@ -1,8 +1,9 @@
 import express from 'express'
 import { NotFoundError } from '../error/not-found-error.js'
-
 import { getEmployeeDashboardData, getEmployeeServiceDetails } from '../controller/employee/dashboard.js'
+
 import { Router } from 'express';
+import { createServiceRequest } from '../controller/employee/serviceRequest.js';
 
 
 const router = Router();
@@ -18,12 +19,10 @@ const router = Router();
 //     res.status(200).json('hello')
 // })
 
-router.get('/employee/dashboard',getEmployeeDashboardData)
+router.get('/employee/dashboard', getEmployeeDashboardData)
+router.get('/employee/service', getEmployeeServiceDetails)
 
-
-
-router.get('/employee/service',getEmployeeServiceDetails)
-
+router.post('/employee/serviceRequest', createServiceRequest)
 
 
 export default router
