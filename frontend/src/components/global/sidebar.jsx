@@ -2,7 +2,7 @@ import React from "react";
 
 const Sidebar = () => {
   return (
-    <div className="h-full w-full p-4">
+    <div className="h-full w-full pl-4 pr-2 py-4">
 <div className="flex flex-col items-center gap-[10px] w-full h-full bg-white rounded-lg">
         <img src="logo.svg" alt="logo" className="my-10 w-20" />
 

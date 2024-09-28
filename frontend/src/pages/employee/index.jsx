@@ -16,11 +16,13 @@ import ServiceForm from "@/components/form/employee/serviceforms/ServiceForm";
 
 const index = () => {
   return (
-    <div className="w-full h-[calc(100vh-56px)] flex flex-row gap-4">
+    <div className="w-full h-[calc(100vh-56px)] flex flex-row gap-1">
       <div className="w-1/5 ">
       <Sidebar />
       </div>
-    <Routes>
+      <div className="w-full h-full pr-4 pl-1 py-4">
+        <div className="space-y-4 bg-white rounded-xl px-6 py-4">
+        <Routes>
         <Route path="/" element={<Dashboard />} />
         <Route path="/status" element={<Status />} />
         {/* <Route path="/create/service" element={<Service />} /> */}
@@ -35,6 +37,8 @@ const index = () => {
         {/* <Route path="/data" element={<Data />} /> */}
         {/* <Route path="/details" element={<PassengerDetails />} /> */}
       </Routes>
+        </div>
+      </div>
     </div>
   );
 };
