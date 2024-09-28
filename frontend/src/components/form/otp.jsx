@@ -75,14 +75,15 @@ function OtpLogin() {
                     </Button>
                 </form>
                 <div className="text-center">
-                    <Button
+                    {/* <Button
                         variant="link"
                         onClick={handleResendClick}
                         disabled={isResendDisabled}
                         className="text-[#008080] hover:text-[#006666]"
                     >
                         Resend OTP
-                    </Button>
+                    </Button> */}
+                    <p className="mt-4 text-green-600">OTP has been sent to your email address.</p>
                 </div>
             </div>
         </div>
