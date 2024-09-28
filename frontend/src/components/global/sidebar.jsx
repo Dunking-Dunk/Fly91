@@ -1,6 +1,12 @@
-import React from 'react'
+import React from "react";
 
 const Sidebar = () => {
+<<<<<<< HEAD
+  return <div>sidebar</div>;
+};
+
+export default Sidebar;
+=======
   return (
     <>
       <div className="flex flex-col items-center w-[15%] gap-[10px] h-[calc(100vh-5rem)] m-[10px] fixed top-[4rem] bg-white rounded-lg">
@@ -30,3 +36,4 @@ const Sidebar = () => {
 }
 
 export default Sidebar
+>>>>>>> a44fea84e2e804737ba86cb8e252d2dda2b94767

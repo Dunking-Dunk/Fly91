@@ -14,9 +14,33 @@ module.exports = {
   		screens: {
   			'2xl': '1400px'
   		}
+		 , fontFamily: {
+			sans: ["Open Sans", "sans-serif"],
+		  },
+		  fontWeight:{
+			"Thin":"100",
+			"ExtraLight" :"200",
+			"Light" :"300",
+			"Regular" :"400",
+			"Medium" :"500",
+			"SemiBold" :"600",
+			"Bold" :"700",
+			"ExtraBold" :"800",
+			"Black" :"900",
+		  },
   	},
   	extend: {
   		colors: {
+			"red": "#F24E1E",
+			"background": "#ECF3F9",
+			"yellow": "#F9B500",
+			"green": "#4ECB71",
+			"blue": "#006A8D",
+			"black": "#000000",
+			"light-grey": "#838383",
+			"too-light-grey": "#D9D9D9",
+			"dark-grey": "#515151",
+			"grey": "#6C6C6C",
   			border: 'hsl(var(--border))',
   			input: 'hsl(var(--input))',
   			ring: 'hsl(var(--ring))',
