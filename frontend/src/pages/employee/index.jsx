@@ -35,7 +35,7 @@ const index = () => {
             {/* <Route path="/review-flight" element={<Rflight />} />
             <Route path="/review-hotel" element={<Rhotel />} />
             <Route path="/review-cab" element={<Rcab />} /> */}
-            {/* <Route path="/booking-summary" element={<BookingForm />} /> */}
+            <Route path="/booking-summary" element={<BookingForm />} />
 
             <Route path="/success" element={<SuccessPage />} />
             <Route path="/profile" element={<Profile />} />
