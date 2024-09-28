@@ -17,8 +17,12 @@ app.use(express.json());
 
 // app.use(employeeRouter);
 
+
+app.use(employeeRouter)
+
 app.use("/sample", sample);
 app.use("/login", login);
+
 
 app.use(ErrorHandler);
 
