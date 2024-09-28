@@ -26,7 +26,6 @@ const index = () => {
             <Route path="/service/create" element={<ServiceForm />} />
             <Route path="/service/success" element={<SuccessPage />} />
 
-
             {/* <Route path="/status" element={<Status />} /> */}
             {/* <Route path="/review-flight" element={<Rflight />} />
             <Route path="/review-hotel" element={<Rhotel />} />
