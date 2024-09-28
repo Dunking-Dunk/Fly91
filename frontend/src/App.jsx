@@ -7,6 +7,7 @@ import Rflight from "./pages/employee/review/flight";
 import Rhotel from "./pages/employee/review/hotel";
 import Rcab from "./pages/employee/review/cab";
 import BookingForm from "./pages/employee/status";
+import ServiceForm from './components/form/employee/serviceforms/ServiceForm'
 
 function App() {
   return (
@@ -21,6 +22,8 @@ function App() {
           <Route path="/rhotel" element={<Rhotel />} />
           <Route path="/rcab" element={<Rcab />} />
           <Route path="/sbook" element={<BookingForm />} />
+          
+          <Route path='/serviceform'  element={<ServiceForm />} />
         </Routes>
       </BrowserRouter>
     </>
