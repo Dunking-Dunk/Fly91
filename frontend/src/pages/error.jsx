@@ -16,7 +16,7 @@ const Error = () => {
         <div className="m-auto mt-24 items-center text-[404px] hover:cursor-default opacity-20 font-bold ">
           404
         </div>
-        <button className="m-auto -mt-40 p-5 rounded-xl bg-background ">
+        <button className="m-auto -mt-40 p-5 rounded-xl bg-background  ">
           {" "}
           Go back to home
         </button>

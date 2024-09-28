@@ -2,8 +2,11 @@
 @tailwind components;
 @tailwind utilities;
 
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap');
+
 @layer base {
   :root {
+    
     --background: 0 0% 100%;
     --foreground: 222.2 84% 4.9%;
 
@@ -79,7 +82,8 @@
   }
 
   body {
-    font-family: 'Poppins', sans-serif;
+    font-family: "Open Sans", sans-serif;
     @apply bg-background text-foreground;
+    @apply bg-[#ECF3F9];
   }
 }
