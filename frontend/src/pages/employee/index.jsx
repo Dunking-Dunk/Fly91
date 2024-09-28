@@ -7,6 +7,7 @@ import Header from "@/components/global/header";
 import SuccessPage from "./forms/success";
 import Profile from "./profile";
 import Data from "../../components/global/data";
+import PassengerDetails from "./forms/passenger";
 
 import Service from "./forms/service";
 import Error from "@/pages/error";
@@ -23,17 +24,19 @@ const index = () => {
       <Header />
       <Routes>
         <Route path="/" element={<Data />} />
+        <Route path="/dashboard" element={<Data />} />
         <Route path="/status" element={<Status />} />
-        <Route path="/create/service" element={<Service />} />
+        {/* <Route path="/create/service" element={<Service />} /> */}
         <Route path="/error" element={<Error />} />
-        <Route path="/rflight" element={<Rflight />} />
-        <Route path="/rhotel" element={<Rhotel />} />
-        <Route path="/rcab" element={<Rcab />} />
-        <Route path="/sbook" element={<BookingForm />} />
+        <Route path="/review-flight" element={<Rflight />} />
+        <Route path="/review-hotel" element={<Rhotel />} />
+        <Route path="/review-cab" element={<Rcab />} />
+        <Route path="/booking-summary" element={<BookingForm />} />
         <Route path="/serviceform" element={<ServiceForm />} />
         <Route path="/success" element={<SuccessPage />} />
-        <Route path="/pro" element={<Profile />} />
+        <Route path="/profile" element={<Profile />} />
         {/* <Route path="/data" element={<Data />} /> */}
+        <Route path="/details" element={<PassengerDetails />} />
       </Routes>
     </div>
   );

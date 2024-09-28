@@ -255,7 +255,7 @@ export default function TableComponent({ initialRequests }) {
         <Button
           onClick={(e) => {
             console.log("clicked");
-            navigate("/serviceform");
+            navigate("/details");
           }}
           className="bg-orange-400 hover:bg-orange-500 text-white font-semibold px-12 py-7"
         >
