@@ -1,17 +1,15 @@
-import React from 'react'
-import { Routes, Route } from 'react-router-dom'
-import Dasboard from './Dasboard'
-import All from './All'
+import React from "react";
+import { Routes, Route } from "react-router-dom";
+import Dasboard from "./Dasboard";
 
 const index = () => {
   return (
     <div>
       <Routes>
-        <Route path='/' element={<Dasboard/>}/>
-        <Route path='/all' element={<All/>}/>
+        <Route path="/" element={<Dasboard />} />
       </Routes>
     </div>
-  )
-}
+  );
+};
 
-export default index
+export default index;
