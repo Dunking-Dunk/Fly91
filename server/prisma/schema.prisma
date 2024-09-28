@@ -109,8 +109,8 @@ model FlightRequest {
     serviceRequestID        String
     serviceRequest          ServiceRequest  @relation(fields: [serviceRequestID], references: [serviceRequestID])
     tripType                TripType
-    origin                  String
-    destination             String
+    origin                  String[]
+    destination             String[]
     departureDate           DateTime
     arrivalDate             DateTime?
     departureTimePreference DateTime?
