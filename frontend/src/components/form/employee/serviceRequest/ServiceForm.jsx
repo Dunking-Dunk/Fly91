@@ -25,9 +25,11 @@ export default function ServiceForm() {
     setShowBanner(false);
     console.log("Proceeding with review after confirmation");
   };
+  
 
   return (
-    <div className="w-full max-w-3xl ml-1 mt-4 h-fit py-10 px-16 bg-white text-[#939393] rounded-lg shadow relative">
+    <div className="w-full ml-1 mt-4 h-fit py-10 px-16 bg-white rounded-lg shadow relative">
+       <h2 className="text-2xl font-semibold mb-6 ">Passenger Details</h2>
       {showBanner && (
         <ConfirmationBanner
           onClose={handleHideBanner}

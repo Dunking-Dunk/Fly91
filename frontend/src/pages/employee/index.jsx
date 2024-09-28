@@ -5,14 +5,12 @@ import Status from "./status";
 import Sidebar from "@/components/global/sidebar";
 import SuccessPage from "./forms/success";
 import Profile from "./profile";
-import PassengerDetails from "./forms/passenger";
 
-import Error from "@/pages/error";
 import Rflight from "./review/flight";
 import Rhotel from "./review/hotel";
 import Rcab from "./review/cab";
 import BookingForm from "./status";
-import ServiceForm from "./forms/service";
+import ServiceForm from "./forms/serviceRequest";
 
 const index = () => {
   return (
@@ -24,21 +22,15 @@ const index = () => {
         <div className="space-y-4 bg-white rounded-xl px-6 py-4">
           <Routes>
             <Route path="/" element={<Dashboard />} />
-            <Route path="/status" element={<Status />} />
-            <Route
-              path="/create/passenger-details"
-              element={<PassengerDetails />}
-            />
-            <Route path="/create/service" element={<ServiceForm />} />
-            {/* <Route path="/create/service" element={<Service />} /> */}
-            <Route path="/error" element={<Error />} />
+            <Route path="/profile" element={<Profile />} />
+            <Route path="/service/create" element={<ServiceForm />} />
+            <Route path="/service/success" element={<SuccessPage />} />
+
+            {/* <Route path="/status" element={<Status />} /> */}
             {/* <Route path="/review-flight" element={<Rflight />} />
             <Route path="/review-hotel" element={<Rhotel />} />
             <Route path="/review-cab" element={<Rcab />} /> */}
-            <Route path="/booking-summary" element={<BookingForm />} />
-
-            <Route path="/success" element={<SuccessPage />} />
-            <Route path="/profile" element={<Profile />} />
+            {/* <Route path="/booking-summary" element={<BookingForm />} /> */}
             {/* <Route path="/data" element={<Data />} /> */}
           </Routes>
         </div>

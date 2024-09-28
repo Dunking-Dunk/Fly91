@@ -6,6 +6,7 @@ import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Button } from "@/components/ui/button";
+import ReviewBack from "@/components/global/reviewBack";
 
 const hotelFormSchema = z
   .object({
@@ -92,12 +93,12 @@ export default function HotelBookingForm({ onShowBanner }) {
     if (showWarning) {
       onShowBanner();
     } else {
-      console.log("Proceeding with review", data);
+      set
     }
   };
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className="mt-7 space-y-6">
+    <form onSubmit={handleSubmit(onSubmit)} className="mt-7 space-y-4">
       <div className="grid grid-cols-2 gap-4">
         <div>
           <Controller
@@ -226,20 +227,7 @@ export default function HotelBookingForm({ onShowBanner }) {
         </div>
       </div>
 
-      <div className="flex w-1/2 pl-4 ml-auto space-x-4">
-        <Button
-          type="button"
-          className="flex-1 p-6 bg-yellow-500 hover:bg-yellow-600"
-        >
-          Back
-        </Button>
-        <Button
-          type="submit"
-          className="flex-1 p-6 bg-green-500 hover:bg-green-600"
-        >
-          Review
-        </Button>
-      </div>
+      <ReviewBack/>
     </form>
   );
 }
