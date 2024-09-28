@@ -1,175 +1,185 @@
 generator client {
-  provider = "prisma-client-js"
+    provider = "prisma-client-js"
 }
 
 datasource db {
-  provider = "postgresql"
-  url      = env("DATABASE_URL")
+    provider = "postgresql"
+    url      = env("DATABASE_URL")
 }
 
 model Stud {
-  id    Int    @id @default(autoincrement())
-  name  String @db.VarChar(20)
-  age   Int
+    id   Int    @id @default(autoincrement())
+    name String @db.VarChar(20)
+    age  Int
 }
 
 model User {
-  id       Int       @id @default(autoincrement())
-  email    String    @unique
-  phone    String    @unique
-  userType UserType
-  employee Employee?
-  vendor   Vendor?
-  admin    Admin?
+    id       Int       @id @default(autoincrement())
+    email    String    @unique
+    phone    String    @unique
+    userType UserType
+    employee Employee?
+    vendor   Vendor?
+    admin    Admin?
+
+    Otp Otp[]
 }
 
 model Employee {
-  userId              Int      @unique
-  user                User     @relation(fields: [userId], references: [id])
-  employeeId          String   @id @unique 
-  name                String
-  email               String   @unique
-  phone               String   @unique
-  department          String?
-  reportingManagerId  String?
-  allocatedPerDiem    Int?
-  serviceRequests     ServiceRequest[] @relation(name: "EmployeeServiceRequests") 
+    userId             Int              @unique
+    user               User             @relation(fields: [userId], references: [id])
+    employeeId         String           @id @unique
+    name               String
+    email              String           @unique
+    phone              String           @unique
+    department         String?
+    reportingManagerId String?
+    allocatedPerDiem   Int?
+    serviceRequests    ServiceRequest[] @relation(name: "EmployeeServiceRequests")
 }
 
 model Vendor {
-  id      Int     @id @default(autoincrement())
-  userId  Int     @unique
-  user    User    @relation(fields: [userId], references: [id])
-  company String
-  service String?
+    id      Int     @id @default(autoincrement())
+    userId  Int     @unique
+    user    User    @relation(fields: [userId], references: [id])
+    company String
+    service String?
 }
 
 model Admin {
-  id          Int     @id @default(autoincrement())
-  userId      Int     @unique
-  user        User    @relation(fields: [userId], references: [id])  
-  role        String
-  permissions String?
+    id          Int     @id @default(autoincrement())
+    userId      Int     @unique
+    user        User    @relation(fields: [userId], references: [id])
+    role        String
+    permissions String?
 }
 
 enum UserType {
-  EMPLOYEE
-  VENDOR
-  ADMIN
+    EMPLOYEE
+    VENDOR
+    ADMIN
 }
 
 enum RequestStatus {
-  Submitted
-  In_Progress
-  Confirmed
-  Completed
-  Rejected
-  Cancelled
+    Submitted
+    In_Progress
+    Confirmed
+    Completed
+    Rejected
+    Cancelled
 }
 
 enum ServiceType {
-  Flight
-  Hotel
-  Cab
+    Flight
+    Hotel
+    Cab
 }
 
 model ServiceRequest {
-  serviceRequestID      String   @id @unique
-  serviceType           ServiceType
-  employeeID            String       
-  employee              Employee     @relation(name: "EmployeeServiceRequests", fields: [employeeID], references: [employeeId])
-  name                  String
-  department            String
-  mobileNumber          String       @db.VarChar(15)
-  reasonForTravel       ReasonForTravel
-  hodApprovalAttachment String?      @db.VarChar(255)
-  status                RequestStatus @default(Submitted)
-  statusTimestamp       DateTime?    @default(now())
-  createdAt             DateTime     @default(now())
-  lastModifiedAt        DateTime?
-  FlightRequest         FlightRequest[]
-  HotelRequest          HotelRequest[]
-  CabRequest            CabRequest[]
-  confirmations         Confirmation[]
+    serviceRequestID      String          @id @unique
+    serviceType           ServiceType
+    employeeID            String
+    employee              Employee        @relation(name: "EmployeeServiceRequests", fields: [employeeID], references: [employeeId])
+    name                  String
+    department            String
+    mobileNumber          String          @db.VarChar(15)
+    reasonForTravel       ReasonForTravel
+    hodApprovalAttachment String?         @db.VarChar(255)
+    status                RequestStatus   @default(Submitted)
+    statusTimestamp       DateTime?       @default(now())
+    createdAt             DateTime        @default(now())
+    lastModifiedAt        DateTime?
+    FlightRequest         FlightRequest[]
+    HotelRequest          HotelRequest[]
+    CabRequest            CabRequest[]
+    confirmations         Confirmation[]
 }
 
 enum ReasonForTravel {
-  DGCA
-  Airport_Visit
-  Audit
-  Workshop_Seminar
-  Sales_Travel
-  Partner_Visit
+    DGCA
+    Airport_Visit
+    Audit
+    Workshop_Seminar
+    Sales_Travel
+    Partner_Visit
 }
 
 model FlightRequest {
-  flightRequestID               Int          @id @default(autoincrement())
-  serviceRequestID              String
-  serviceRequest                ServiceRequest @relation(fields: [serviceRequestID], references: [serviceRequestID])
-  tripType                      TripType
-  origin                        String
-  destination                   String
-  departureDate                 DateTime
-  arrivalDate                   DateTime?
-  departureTimePreference       DateTime?
-  arrivalTimePreference         DateTime?
-  createdAt                     DateTime     @default(now())
-  seatPreference                SeatPreference?
-  class                         FlightClass
+    flightRequestID         Int             @id @default(autoincrement())
+    serviceRequestID        String
+    serviceRequest          ServiceRequest  @relation(fields: [serviceRequestID], references: [serviceRequestID])
+    tripType                TripType
+    origin                  String
+    destination             String
+    departureDate           DateTime
+    arrivalDate             DateTime?
+    departureTimePreference DateTime?
+    arrivalTimePreference   DateTime?
+    createdAt               DateTime        @default(now())
+    seatPreference          SeatPreference?
+    class                   FlightClass
 }
 
 enum TripType {
-  One_Way
-  Round_Trip
-  Multi_City
+    One_Way
+    Round_Trip
+    Multi_City
 }
 
 enum SeatPreference {
-  Window
-  Aisle
-  No_Preference
+    Window
+    Aisle
+    No_Preference
 }
 
 enum FlightClass {
-  Economy
-  Business
-  First_Class
+    Economy
+    Business
+    First_Class
 }
 
 model HotelRequest {
-  hotelRequestID               Int          @id @default(autoincrement())
-  serviceRequestID             String
-  serviceRequest               ServiceRequest @relation(fields: [serviceRequestID], references: [serviceRequestID])
-  city                         String
-  state                        String?
-  checkInDate                  DateTime
-  checkInTime                  DateTime?
-  checkOutDate                 DateTime
-  checkOutTime                 DateTime?
-  createdAt                    DateTime     @default(now())
+    hotelRequestID   Int            @id @default(autoincrement())
+    serviceRequestID String
+    serviceRequest   ServiceRequest @relation(fields: [serviceRequestID], references: [serviceRequestID])
+    city             String
+    state            String?
+    checkInDate      DateTime
+    checkInTime      DateTime?
+    checkOutDate     DateTime
+    checkOutTime     DateTime?
+    createdAt        DateTime       @default(now())
 }
 
 model CabRequest {
-  cabRequestID     Int       @id @default(autoincrement())
-  serviceRequestID String
-  serviceRequest   ServiceRequest @relation(fields: [serviceRequestID], references: [serviceRequestID])
-  requestType      String    @db.VarChar(50)
-  city             String    @db.VarChar(100)
-  state            String?   @db.VarChar(100)
-  pickUpAddress    String    @db.VarChar(255)
-  dropAddress      String?   @db.VarChar(255)
-  dateOfTravel     DateTime
-  startTime        DateTime
-  endTime          DateTime?
-  pickUpTime       DateTime
-  createdAt        DateTime  @default(now())
+    cabRequestID     Int            @id @default(autoincrement())
+    serviceRequestID String
+    serviceRequest   ServiceRequest @relation(fields: [serviceRequestID], references: [serviceRequestID])
+    requestType      String         @db.VarChar(50)
+    city             String         @db.VarChar(100)
+    state            String?        @db.VarChar(100)
+    pickUpAddress    String         @db.VarChar(255)
+    dropAddress      String?        @db.VarChar(255)
+    dateOfTravel     DateTime
+    startTime        DateTime
+    endTime          DateTime?
+    pickUpTime       DateTime
+    createdAt        DateTime       @default(now())
 }
 
 model Confirmation {
-  confirmationID      Int          @id @default(autoincrement())
-  serviceRequestID    String
-  serviceType         ServiceType 
-  perDiemAllowance    Decimal?     @db.Decimal(10, 2)
-  confirmationDate    DateTime     @default(now()) 
-  serviceRequest      ServiceRequest @relation(fields: [serviceRequestID], references: [serviceRequestID])
+    confirmationID   Int            @id @default(autoincrement())
+    serviceRequestID String
+    serviceType      ServiceType
+    perDiemAllowance Decimal?       @db.Decimal(10, 2)
+    confirmationDate DateTime       @default(now())
+    serviceRequest   ServiceRequest @relation(fields: [serviceRequestID], references: [serviceRequestID])
+}
+
+model Otp {
+    id        Int      @id @default(autoincrement())
+    otp       String
+    userId    Int      @unique
+    user      User     @relation(fields: [userId], references: [id])
+    expiresAt DateTime
 }
