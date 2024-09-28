@@ -18,9 +18,9 @@ const index = () => {
   return (
     <div className="w-full h-[calc(100vh-56px)] flex flex-row gap-4">
       <div className="w-1/5 ">
-      <Sidebar />
+        <Sidebar />
       </div>
-    <Routes>
+      <Routes>
         <Route path="/" element={<Dashboard />} />
         <Route path="/status" element={<Status />} />
         {/* <Route path="/create/service" element={<Service />} /> */}

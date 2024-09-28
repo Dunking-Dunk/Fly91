@@ -1,12 +1,12 @@
-import TableComponent from '@/components/global/table'
-import React from 'react'
+import TableComponent from "@/components/global/table";
+import React from "react";
 
 const Dasboard = () => {
   return (
-    <div className='w-full h-full'>
-        <TableComponent/>
+    <div className="w-full h-full">
+      <TableComponent />
     </div>
-  )
-}
+  );
+};
 
-export default Dasboard
+export default Dasboard;

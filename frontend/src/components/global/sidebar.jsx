@@ -1,6 +1,8 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
 
 const Sidebar = () => {
+  const navigate = useNavigate();
   return (
     <div className="h-full w-full p-4">
       <div className="flex flex-col items-center gap-[10px] w-full h-full bg-white rounded-lg">
@@ -23,8 +25,9 @@ const Sidebar = () => {
         </div>
 
         <div className="flex-grow"></div>
-
-        <img src="logout.png" alt="logout" className="my-[20px]" />
+        <button onClick={() => navigate("/login")}>
+          <img src="logout.png" alt="logout" className="my-[20px]" />{" "}
+        </button>
       </div>
     </div>
   );
