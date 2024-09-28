@@ -1,32 +1,24 @@
-import jwt from "jsonwebtoken";
-import { BadRequestError } from "../error/bad-request-error.js";
-
+import jwt from 'jsonwebtoken'
+ 
 export const currentUser = (req, res, next) => {
-    const { auth } = req.cookies
-
-    try {
-        const payload = jwt.verify(auth, process.env.JWT_KEY);
-        // if (authToken != "test") throw BadRequestError("oh helll naahhh")
-
-        req.currentUser = payload
-
-        // req.currentUser = {
-        //     id: 5,
-        //     email: "admin1@example.com",
-        //     phone: "9123456781",
-        //     userType: "ADMIN",
-        //     iat: 1727527645
-        // };
-    } catch (err) {
-        console.log(err);
+    if (!req.cookies.token) {
+        return next()
     }
 
-    next();
-};
+    try {
+        const payload = jwt.verify(req.cookies.token, process.env.JWT_KEY)
+
+        req.currentUser = payload;
+    }
+    catch (err) {
+        console.log(err)
+            }
+
+    next()
+}
 
 // export const authorizeRole = (role) => {
-//     return (req: Request, res:, next) => {
+//     return (req: Request, res:, next) => { 
 //         // if (req.currentUser.)
 //     }
 // }
-
