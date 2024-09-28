@@ -1,10 +1,21 @@
-import { useState, useEffect } from "react";
-import { ChevronDown, Download, ArrowUpDown, Calendar } from "lucide-react";
-import DatePicker from "react-datepicker";
-import "react-datepicker/dist/react-datepicker.css";
-import { Button } from "@/components/ui/button";
-import { Navigate, useNavigate } from "react-router-dom";
-
+import * as React from "react"
+import { useState } from "react"
+import { Button } from "@/components/ui/button"
+import { Input } from "@/components/ui/input"
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover"
+import { Calendar } from "@/components/ui/calendar"
+import { CalendarIcon, Download, Filter, X, ChevronDown } from "lucide-react"
+import { format } from "date-fns"
+import {
+  flexRender,
+  getCoreRowModel,
+  getFilteredRowModel,
+  getPaginationRowModel,
+  
+  getSortedRowModel,
+  useReactTable,
+} from "@tanstack/react-table"
 import {
   Table,
   TableBody,
@@ -12,283 +23,216 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from "@/components/ui/table";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
-import { addDays, format } from "date-fns";
+} from "@/components/ui/table"
 
-export default function TableComponent() {
-  const initialRequests = [
-    {
-      srn: "SRN12345",
-      service: "Web Development",
-      requestRaised: "2024-09-01",
-      fulfilled: "2024-09-05",
-      status: "Completed",
+
+export default function Component({data, columns}) {
+  const [sorting, setSorting] = React.useState([])
+  const [columnFilters, setColumnFilters] = React.useState([])
+  const [columnVisibility, setColumnVisibility] = React.useState({})
+  const [rowSelection, setRowSelection] = React.useState({})
+  const [activeFilter, setActiveFilter] = useState('')
+  const [pageSize, setPageSize] = React.useState(5)
+
+  const table = useReactTable({
+    data,
+    columns,
+    onSortingChange: setSorting,
+    onColumnFiltersChange: setColumnFilters,
+    getCoreRowModel: getCoreRowModel(),
+    getPaginationRowModel: getPaginationRowModel(),
+    getSortedRowModel: getSortedRowModel(),
+    getFilteredRowModel: getFilteredRowModel(),
+    onColumnVisibilityChange: setColumnVisibility,
+    onRowSelectionChange: setRowSelection,
+    state: {
+      sorting,
+      columnFilters,
+      columnVisibility,
+      rowSelection,
     },
-    {
-      srn: "SRN67890",
-      service: "App Design",
-      requestRaised: "2024-09-10",
-      fulfilled: "",
-      status: "Pending",
-    },
-    {
-      srn: "SRN11223",
-      service: "SEO Optimization",
-      requestRaised: "2024-09-07",
-      fulfilled: "2024-09-15",
-      status: "Completed",
-    },
-    {
-      srn: "SRN44556",
-      service: "API Integration",
-      requestRaised: "2024-09-12",
-      fulfilled: "",
-      status: "Confirmed",
-    },
-  ];
-  const [requests, setRequests] = useState();
-  const [filterType, setFilterType] = useState("All");
-  const [sortConfig, setSortConfig] = useState({ key: null, direction: "asc" });
-  const [dateRange, setDateRange] = useState([
-    addDays(new Date(), -30),
-    new Date(),
-  ]);
 
-  const navigate = useNavigate();
+  })
 
-  useEffect(() => {
-    if (initialRequests && initialRequests.length > 0) {
-      setRequests(initialRequests);
-    }
-  }, []);
-
-  const handleFilter = (type) => {
-    setFilterType(type);
-    if (!initialRequests) return;
-
-    let filteredRequests = [...initialRequests];
-    if (type === "Completed") {
-      filteredRequests = filteredRequests.filter(
-        (request) => request.status === "Completed"
-      );
-    } else if (type === "Pending") {
-      filteredRequests = filteredRequests.filter(
-        (request) => request.status !== "Completed"
-      );
-    }
-    setRequests(filteredRequests);
-  };
-
-  const handleSort = (key) => {
-    let direction = "asc";
-    if (sortConfig.key === key && sortConfig.direction === "asc") {
-      direction = "desc";
-    }
-    setSortConfig({ key, direction });
-
-    const sortedRequests = [...requests].sort((a, b) => {
-      if (a[key] < b[key]) return direction === "asc" ? -1 : 1;
-      if (a[key] > b[key]) return direction === "asc" ? 1 : -1;
-      return 0;
-    });
-    setRequests(sortedRequests);
-  };
-
-  const handleDateRangeChange = (update) => {
-    setDateRange(update);
-    if (update[0] && update[1] && initialRequests) {
-      const filteredRequests = initialRequests.filter((request) => {
-        const requestDate = new Date(request.requestRaised);
-        return requestDate >= update[0] && requestDate <= update[1];
-      });
-      setRequests(filteredRequests);
-    }
-  };
-
-  if (!initialRequests || initialRequests.length === 0) {
-    return <div className="text-center py-10">No requests available.</div>;
+  const clearFilter = (filter) => {
+    table.getColumn(filter)?.setFilterValue("")
+    setActiveFilter('')
   }
 
   return (
-    <div className="flex flex-col justify-center align-middle p-4">
-      <div className="flex justify-between items-center mb-4">
-        <div className="flex space-x-2">
-          <Button
-            variant="outline"
-            className="bg-green-500 hover:bg-green-600 text-white border-none"
-          >
-            <Download className="w-4 h-4 mr-2" />
-            Download
-          </Button>
-          <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-              <Button
-                variant="outline"
-                className="bg-orange-400 hover:bg-orange-500 text-white border-none"
-              >
-                Filter
-                <ChevronDown className="w-7 h-10 ml-6" />
+    <div className="container mx-auto p-4 bg-white">
+      <div className="flex justify-end items-center mb-4">
+        <div className="space-x-2">
+          <Button className="bg-green-500 hover:bg-green-600 text-white"><Download className="mr-2 h-4 w-4" /> Download</Button>
+          <Popover>
+            <PopoverTrigger asChild>
+              <Button className="bg-yellow-500 hover:bg-yellow-600 text-white">
+                <Filter className="mr-2 h-4 w-4" /> Filter <ChevronDown className="ml-2 h-4 w-4" />
               </Button>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent className="w-56">
-              <DropdownMenuLabel>Filter By Status</DropdownMenuLabel>
-              <DropdownMenuSeparator />
-              <DropdownMenuItem onClick={() => handleFilter("All")}>
-                All
-              </DropdownMenuItem>
-              <DropdownMenuItem onClick={() => handleFilter("Completed")}>
-                Completed
-              </DropdownMenuItem>
-              <DropdownMenuItem onClick={() => handleFilter("Pending")}>
-                Pending
-              </DropdownMenuItem>
-              <DropdownMenuSeparator />
-              <DropdownMenuLabel>Sort By</DropdownMenuLabel>
-              <DropdownMenuItem onClick={() => handleSort("requestRaised")}>
-                Date
-              </DropdownMenuItem>
-              <DropdownMenuItem onClick={() => handleSort("service")}>
-                Service
-              </DropdownMenuItem>
-              <DropdownMenuItem onClick={() => handleSort("status")}>
-                Status
-              </DropdownMenuItem>
-            </DropdownMenuContent>
-          </DropdownMenu>
-          <DatePicker
-            selectsRange={true}
-            startDate={dateRange[0]}
-            endDate={dateRange[1]}
-            onChange={handleDateRangeChange}
-            className="bg-blue-500 hover:bg-blue-600 text-white border-none rounded px-4 py-2"
-            customInput={
-              <Button
-                variant="outline"
-                className="bg-blue-500 hover:bg-blue-600 text-white border-none"
-              >
-                <Calendar className="w-4 h-4 mr-2" />
-                {dateRange[0] && dateRange[1] ? (
-                  <>
-                    {format(dateRange[0], "LLL dd, y")} -{" "}
-                    {format(dateRange[1], "LLL dd, y")}
-                  </>
-                ) : (
-                  <span>Pick a date range</span>
-                )}
-              </Button>
-            }
-          />
+            </PopoverTrigger>
+            <PopoverContent className="w-80">
+              <div className="grid gap-4">
+                <Select onValueChange={(value) => table.getColumn('service')?.setFilterValue(value)}>
+                  <SelectTrigger className="bg-yellow-100">
+                    <SelectValue placeholder="Service" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="cab">Cab</SelectItem>
+                  </SelectContent>
+                </Select>
+                <div className="grid grid-cols-2 gap-2">
+                  <Popover>
+                    <PopoverTrigger asChild>
+                      <Button variant="outline" className="w-full justify-start text-left font-normal bg-gray-200">
+                        <CalendarIcon className="mr-2 h-4 w-4" />
+                        From
+                      </Button>
+                    </PopoverTrigger>
+                    <PopoverContent className="w-auto p-0" align="start">
+                      <Calendar
+                        mode="single"
+                        onSelect={(date) => table.getColumn('requestRaised')?.setFilterValue(date ? format(date, 'dd-MMM-yyyy') : '')}
+                        initialFocus
+                      />
+                    </PopoverContent>
+                  </Popover>
+                  <Popover>
+                    <PopoverTrigger asChild>
+                      <Button variant="outline" className="w-full justify-start text-left font-normal bg-gray-200">
+                        <CalendarIcon className="mr-2 h-4 w-4" />
+                        To
+                      </Button>
+                    </PopoverTrigger>
+                    <PopoverContent className="w-auto p-0" align="start">
+                      <Calendar
+                        mode="single"
+                        onSelect={(date) => table.getColumn('fulfilled')?.setFilterValue(date ? format(date, 'dd-MMM-yyyy') : '')}
+                        initialFocus
+                      />
+                    </PopoverContent>
+                  </Popover>
+                </div>
+                <Select onValueChange={(value) => table.getColumn('status')?.setFilterValue(value)}>
+                  <SelectTrigger className="bg-gray-200">
+                    <SelectValue placeholder="Status" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="completed">Completed</SelectItem>
+                    <SelectItem value="in progress">In Progress</SelectItem>
+                    <SelectItem value="rejected">Rejected</SelectItem>
+                    <SelectItem value="submitted">Submitted</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
+            </PopoverContent>
+          </Popover>
         </div>
       </div>
+      <div className="flex space-x-2 mb-4 justify-end">
+      <Button
+  onClick={() => setActiveFilter('service')}
+  className={`px-4 py-2 rounded ${activeFilter === 'service' ? 'bg-green-200 text-green-800' : 'bg-yellow-100 text-yellow-900'}`}
+>
+  Service
+  {table.getColumn('service')?.getFilterValue() && (
+    <span className="ml-2 bg-gray-200 px-2 py-1 rounded-full text-xs flex items-center">
+      {table.getColumn('service')?.getFilterValue()}
+      <X className="h-3 w-3 ml-1 cursor-pointer" onClick={(e) => { e.stopPropagation(); clearFilter('service'); }} />
+    </span>
+  )}
+</Button>
 
-      <div className="bg-white shadow rounded-lg overflow-hidden mb-4">
+<Button
+  onClick={() => setActiveFilter('dateRange')}
+  className={`px-4 py-2 rounded ${activeFilter === 'dateRange' ? 'bg-green-200 text-green-800' : 'bg-yellow-100 text-yellow-900'}`}
+>
+  Date Range
+  {(table.getColumn('requestRaised')?.getFilterValue() || table.getColumn('fulfilled')?.getFilterValue()) && (
+    <span className="ml-2 bg-gray-200 px-2 py-1 rounded-full text-xs flex items-center">
+      {table.getColumn('requestRaised')?.getFilterValue()} - {table.getColumn('fulfilled')?.getFilterValue()}
+      <X className="h-3 w-3 ml-1 cursor-pointer" onClick={(e) => { e.stopPropagation(); clearFilter('requestRaised'); clearFilter('fulfilled'); }} />
+    </span>
+  )}
+</Button>
+
+<Button
+  onClick={() => setActiveFilter('status')}
+  className={`px-4 py-2 rounded ${activeFilter === 'status' ? 'bg-green-200 text-green-800' : 'bg-yellow-100 text-yellow-900'}`}
+>
+  Status
+  {table.getColumn('status')?.getFilterValue() && (
+    <span className="ml-2 bg-gray-200 px-2 py-1 rounded-full text-xs flex items-center">
+      {table.getColumn('status')?.getFilterValue()}
+      <X className="h-3 w-3 ml-1 cursor-pointer" onClick={(e) => { e.stopPropagation(); clearFilter('status'); }} />
+    </span>
+  )}
+</Button>
+      </div>
+      <div className="rounded-md border">
         <Table>
           <TableHeader>
-            <TableRow className="bg-gray-50">
-              <TableHead className="px-12 py-10 font-semibold text-gray-600">
-                SRN
-                <Button
-                  variant="ghost"
-                  onClick={() => handleSort("srn")}
-                  className="ml-2 p-0"
-                >
-                  <ArrowUpDown className="h-4 w-4" />
-                </Button>
-              </TableHead>
-              <TableHead className="px-12 py-8 font-semibold text-gray-600">
-                Service
-                <Button
-                  variant="ghost"
-                  onClick={() => handleSort("service")}
-                  className="ml-2 p-0"
-                >
-                  <ArrowUpDown className="h-4 w-4" />
-                </Button>
-              </TableHead>
-              <TableHead className="px-12 py-8 font-semibold text-gray-600">
-                Request raised
-                <Button
-                  variant="ghost"
-                  onClick={() => handleSort("requestRaised")}
-                  className="ml-2 p-0"
-                >
-                  <ArrowUpDown className="h-4 w-4" />
-                </Button>
-              </TableHead>
-              <TableHead className="px-12 py-8 font-semibold text-gray-600">
-                Fulfilled
-                <Button
-                  variant="ghost"
-                  onClick={() => handleSort("fulfilled")}
-                  className="ml-2 p-0"
-                >
-                  <ArrowUpDown className="h-4 w-4" />
-                </Button>
-              </TableHead>
-              <TableHead className="px-12 py-8 font-semibold text-gray-600">
-                Status
-                <Button
-                  variant="ghost"
-                  onClick={() => handleSort("status")}
-                  className="ml-2 p-0"
-                >
-                  <ArrowUpDown className="h-4 w-4" />
-                </Button>
-              </TableHead>
-            </TableRow>
-          </TableHeader>
-          <TableBody>
-            {requests?.map((request, index) => (
-              <TableRow
-                key={index}
-                className={index % 2 === 0 ? "bg-white" : "bg-gray-50"}
-              >
-                <TableCell className="px-8 py-6 font-medium text-blue-600">
-                  {request.srn}
-                </TableCell>
-                <TableCell className="px-8 py-6">{request.service}</TableCell>
-                <TableCell className="px-8 py-6">
-                  {request.requestRaised}
-                </TableCell>
-                <TableCell className="px-8 py-6">{request.fulfilled}</TableCell>
-                <TableCell className="px-8 py-6">
-                  <span
-                    className={`px-2 py-1 rounded-full text-xs ${
-                      request.status === "Completed"
-                        ? "bg-green-100 text-green-800"
-                        : request.status === "Confirmed"
-                        ? "bg-blue-100 text-blue-800"
-                        : "bg-yellow-100 text-yellow-800"
-                    }`}
-                  >
-                    {request.status}
-                  </span>
-                </TableCell>
+            {table.getHeaderGroups().map((headerGroup) => (
+              <TableRow key={headerGroup.id}>
+                {headerGroup.headers.map((header) => {
+                  return (
+                    <TableHead key={header.id}>
+                      {header.isPlaceholder
+                        ? null
+                        : flexRender(
+                            header.column.columnDef.header,
+                            header.getContext()
+                          )}
+                    </TableHead>
+                  )
+                })}
               </TableRow>
             ))}
+          </TableHeader>
+          <TableBody>
+            {table.getRowModel().rows?.length ? (
+              table.getRowModel().rows.map((row) => (
+                <TableRow
+                  key={row.id}
+                  data-state={row.getIsSelected() && "selected"}
+                >
+                  {row.getVisibleCells().map((cell) => (
+                    <TableCell key={cell.id} className='py-2'>
+                      {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                    </TableCell>
+                  ))}
+                </TableRow>
+              ))
+            ) : (
+              <TableRow>
+                <TableCell colSpan={columns.length} className="h-24 text-center">
+                  No results.
+                </TableCell>
+              </TableRow>
+            )}
           </TableBody>
         </Table>
       </div>
-
-      <div className="flex justify-end">
-        <Button
-          onClick={(e) => {
-            console.log("clicked");
-            navigate("/details");
-          }}
-          className="bg-orange-400 hover:bg-orange-500 text-white font-semibold px-12 py-7"
-        >
-          Raise New Request
-        </Button>
+      <div className="flex items-center justify-end space-x-2 py-4">
+        <div className="space-x-2">
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={() => table.previousPage()}
+            disabled={!table.getCanPreviousPage()}
+          >
+            Previous
+          </Button>
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={() => table.nextPage()}
+            disabled={!table.getCanNextPage()}
+          >
+            Next
+          </Button>
+        
+        </div>
       </div>
     </div>
-  );
+  )
 }
