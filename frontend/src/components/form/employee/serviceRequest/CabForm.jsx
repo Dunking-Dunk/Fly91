@@ -1,5 +1,3 @@
-"use client";
-
 import React from "react";
 import { useForm, Controller } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -9,6 +7,7 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Clock } from "lucide-react";
+import ReviewBack from "@/components/global/reviewBack";
 
 const cabFormSchema = z
   .object({
@@ -92,7 +91,7 @@ export default function CabForm() {
   };
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className="mt-7 space-y-6">
+    <form onSubmit={handleSubmit(onSubmit)} className="mt-7 space-y-4">
       <Controller
         name="bookingType"
         control={control}
@@ -243,20 +242,7 @@ export default function CabForm() {
         </div>
       )}
 
-      <div className="flex pl-4 ml-auto w-1/2 space-x-4">
-        <Button
-          type="button"
-          className="flex-1 p-6 bg-yellow-500 hover:bg-yellow-600"
-        >
-          Back
-        </Button>
-        <Button
-          type="submit"
-          className="flex-1 p-6 bg-green-500 hover:bg-green-600"
-        >
-          Review
-        </Button>
-      </div>
+   <ReviewBack />
     </form>
   );
 }

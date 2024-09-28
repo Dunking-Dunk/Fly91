@@ -9,6 +9,7 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { Button } from "@/components/ui/button";
 import { PlusIcon, TrashIcon } from "lucide-react";
 import { Clock } from "lucide-react";
+import ReviewBack from "@/components/global/reviewBack";
 
 const routeSchema = z
   .object({
@@ -98,7 +99,7 @@ export default function Component({ onShowBanner }) {
   };
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
+    <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
       <div>
         <Controller
           name="tripType"
@@ -273,21 +274,7 @@ export default function Component({ onShowBanner }) {
           size={20}
         />
       </div>
-
-      <div className="flex w-1/2 pl-4 ml-auto space-x-4">
-        <Button
-          type="button"
-          className="flex-1 p-6 bg-yellow-500 hover:bg-yellow-600"
-        >
-          Back
-        </Button>
-        <Button
-          type="submit"
-          className="flex-1 p-6 bg-green-500 hover:bg-green-600"
-        >
-          Review
-        </Button>
-      </div>
+      <ReviewBack/>
     </form>
   );
 }
