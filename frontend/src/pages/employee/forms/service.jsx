@@ -1,4 +1,4 @@
-import ServiceForm from '@/components/form/employee/serviceForm'
+import ServiceForm from '@/components/form/employee/serviceforms/ServiceForm'
 
 const Service = () => {
   return (
