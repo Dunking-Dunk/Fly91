@@ -109,8 +109,8 @@ model FlightRequest {
     serviceRequestID        String
     serviceRequest          ServiceRequest  @relation(fields: [serviceRequestID], references: [serviceRequestID])
     tripType                TripType
-    origin                  String
-    destination             String
+    origin                  String[]
+    destination             String[]
     departureDate           DateTime
     arrivalDate             DateTime?
     departureTimePreference DateTime?
@@ -176,10 +176,11 @@ model Confirmation {
     serviceRequest   ServiceRequest @relation(fields: [serviceRequestID], references: [serviceRequestID])
 }
 
+
 model Otp {
     id        Int      @id @default(autoincrement())
     otp       String
     userId    Int      @unique
     user      User     @relation(fields: [userId], references: [id])
-    expiresAt DateTime
+    expiresAt DateTime
 }
