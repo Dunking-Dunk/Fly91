@@ -182,4 +182,12 @@ model Otp {
     userId    Int      @unique
     user      User     @relation(fields: [userId], references: [id])
     expiresAt DateTime
+=========
+  confirmationID      Int          @id @default(autoincrement())
+  serviceRequestID    String
+  serviceType         ServiceType 
+  perDiemAllowance    Decimal?     @db.Decimal(10, 2)
+  confirmationDate    DateTime     @default(now()) 
+  serviceRequest      ServiceRequest @relation(fields: [serviceRequestID], references: [serviceRequestID])
+>>>>>>>>> Temporary merge branch 2
 }

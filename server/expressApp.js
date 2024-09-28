@@ -16,10 +16,9 @@ app.use(express.json());
 // app.use(requireAuth);
 
 app.use(employeeRouter)
-// app.use(employeeRouter);
-
 app.use("/sample", sample);
 app.use("/login", login);
+
 
 app.use(ErrorHandler);
 
