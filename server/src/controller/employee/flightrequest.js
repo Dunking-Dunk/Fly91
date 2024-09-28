@@ -9,13 +9,13 @@ function generateSRID(requestType) {
 
 export const addFlightRequest = async (req, res) => {
     try {
-        // Destructure required and optional properties from req.body
         const {
+            requestType,
             employee: {
                 firstname, lastname, employeeid, dept, mobilenumber, email, reason, hoddoc
             },
             flightRequest: {
-                srnid, origin, destination, dep_date, time_preference_dep, time_preference_arrival, time_arrival, type, requestType
+                srnid, origin, destination, dep_date, time_preference_dep, time_preference_arrival, time_arrival, tripType,
             }
         } = req.body;
         console.log('Received req.body:', req.body);
@@ -28,16 +28,15 @@ export const addFlightRequest = async (req, res) => {
             return res.status(404).json({ error: 'Employee not found' });
         }
 
-        // Create a new ServiceRequest
         const serviceRequest = await prisma.serviceRequest.create({
             data: {
-                serviceRequestID: generateSRID('Flight'),
-                serviceType: 'Flight', // Assuming this is an enum value
+                serviceRequestID: generateSRID(requestType),
+                serviceType: 'Flight',
                 employeeID: employeeid,
                 name: `${firstname} ${lastname}`,
                 department: dept,
                 mobileNumber: mobilenumber,
-                reasonForTravel: reason, // Should be an enum value
+                reasonForTravel: reason,
                 hodApprovalAttachment: hoddoc || null,
                 status: 'Submitted',
                 createdAt: new Date(),
@@ -60,31 +59,29 @@ export const addFlightRequest = async (req, res) => {
         //     },
         // });
 
-        const flightRequests = await Promise.all(origin.map((orig, index) => {
-            return prisma.flightRequest.create({
-                data: {
-                    serviceRequestID: serviceRequest.serviceRequestID,
-                    tripType, // This should be the same for all in the request
-                    origin: [orig], // Store as an array
-                    destination: [destination[index]], // Store as an array
-                    departureDate: new Date(dep_date[index]),
-                    arrivalDate: tripType === "One_Way" ? null : new Date(time_arrival[index]),
-                    departureTimePreference: time_preference_dep ? new Date(time_preference_dep) : null,
-                    arrivalTimePreference: time_preference_arrival ? new Date(time_preference_arrival) : null,
-                    createdAt: new Date(),
-                    class: 'Business', // Can adjust based on request if needed
-                },
-            });
-        }));
+        const flightRequests = await prisma.flightRequest.create({
+            data: {
+                serviceRequestID: serviceRequest.serviceRequestID,
+                tripType: tripType,
+                origin: origin,
+                destination: destination,
+                departureDate: new Date(dep_date),
+                arrivalDate: tripType === "One_Way" ? null : new Date(time_arrival),
+                departureTimePreference: time_preference_dep ? new Date(time_preference_dep) : null,
+                arrivalTimePreference: time_preference_arrival ? new Date(time_preference_arrival) : null,
+                createdAt: new Date(),
+                class: 'Business', // Fixed class for now
+            },
+        });
 
         // Log the created records
         console.log('Service request added:', serviceRequest);
-        console.log('Flight request added :', flightRequest);
+        console.log('Flight request added :', flightRequests);
 
         // Respond with success message and created records
         res.status(201).json({
             message: 'Flight request created successfully',
-            flightRequest,
+            flightRequests,
             serviceRequest,
         });
     } catch (error) {
