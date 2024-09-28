@@ -2,8 +2,7 @@ import pkg from "pg";
 const { Pool } = pkg;
 
 const pool = new Pool({
-    connectionString:
-        "postgresql://Employee_owner:iqRLeY36EWKt@ep-quiet-truth-a1p4po63.ap-southeast-1.aws.neon.tech/AdminDesktopPortal?sslmode=require",
+    connectionString: process.env.DATABASE_URL,
 });
 
 pool.connect((err, client, release) => {
@@ -22,4 +21,3 @@ pool.connect((err, client, release) => {
 });
 
 export default pool;
-
