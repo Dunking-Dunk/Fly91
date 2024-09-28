@@ -9,7 +9,7 @@ import sample from './src/route/sample.js'
 
 const app = express()
 
-// app.use(express.json())
+app.use(express.json())
 
 // app.use(currentUser)
 // app.use(requireAuth)
