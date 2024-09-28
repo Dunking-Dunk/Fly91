@@ -54,7 +54,7 @@ export const addFlightRequest = async (req, res) => {
                 departureTimePreference: time_preference_dep ? new Date(time_preference_dep) : null,
                 arrivalTimePreference: time_preference_arrival ? new Date(time_preference_arrival) : null,
                 createdAt: new Date(),
-                class: 'Business', 
+                class: reason, // Fixed class for now
             },
         });
 
