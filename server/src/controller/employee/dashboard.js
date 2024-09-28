@@ -19,6 +19,22 @@ export const getEmployeeDashboardData = async (req, res) => {
 };
 
 
+export const getEmployeeDetails = async (req, res) => {
+    const employeeID = req.query.employeeID;
+    console.log('Fetching data for Employee ID:', employeeID);
+    try {
+        const employeeServiceRequests = await getTableData('employee', {
+            employeeId: employeeID  
+        });
+        res.json(employeeServiceRequests);
+    }
+    catch (error) {
+        console.error('Error fetching service requests:', error);
+        res.status(500).json({ error: 'Failed to fetch service requests' });
+    }
+};
+
+
 //http://localhost:8000/employee/service?serviceRequestID=SRN-CAB-000146
 export const getEmployeeServiceDetails = async (req, res) => {
 
