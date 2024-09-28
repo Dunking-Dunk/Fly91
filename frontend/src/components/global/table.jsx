@@ -1,6 +1,8 @@
-import * as React from "react"
-import { ChevronDownIcon, DownloadIcon, ArrowUpDown } from "lucide-react"
-import { Button } from "@/components/ui/button"
+import  { useState, useEffect } from 'react'
+import { ChevronDown, Download, ArrowUpDown, Calendar } from 'lucide-react'
+import DatePicker from 'react-datepicker'
+import "react-datepicker/dist/react-datepicker.css"
+import { Button } from '@/components/ui/button'
 import {
   Table,
   TableBody,
@@ -8,7 +10,7 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from "@/components/ui/table"
+} from '@/components/ui/table'
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -16,22 +18,28 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu"
+} from '@/components/ui/dropdown-menu'
+import { addDays, format } from 'date-fns'
 
-const initialRequests = [
-  { srn: "SRN-CAB-202122", service: "Cab", requestRaised: "24-Sep-2024", fulfilled: "-", status: "Submitted" },
-  { srn: "SRN-CAB-202123", service: "Cab", requestRaised: "25-Sep-2024", fulfilled: "-", status: "Confirmed" },
-  { srn: "SRN-CAB-202124", service: "Cab", requestRaised: "26-Sep-2024", fulfilled: "27-Sep-2024", status: "Completed" },
-  { srn: "SRN-CAB-202125", service: "Cab", requestRaised: "27-Sep-2024", fulfilled: "28-Sep-2024", status: "Completed" },
-]
 
-export default function TableComponent() {
-  const [requests, setRequests] = React.useState(initialRequests)
-  const [filterType, setFilterType] = React.useState(null)
-  const [sortConfig, setSortConfig] = React.useState(null)
+
+
+export default function TableComponent({ initialRequests }) {
+  const [requests, setRequests] = useState([])
+  const [filterType, setFilterType] = useState('All')
+  const [sortConfig, setSortConfig] = useState({ key: null, direction: 'asc' })
+  const [dateRange, setDateRange] = useState([addDays(new Date(), -30), new Date()])
+
+  useEffect(() => {
+    if (initialRequests && initialRequests.length > 0) {
+      setRequests(initialRequests)
+    }
+  }, [initialRequests])
 
   const handleFilter = (type) => {
     setFilterType(type)
+    if (!initialRequests) return
+
     let filteredRequests = [...initialRequests]
     if (type === 'Completed') {
       filteredRequests = filteredRequests.filter(request => request.status === 'Completed')
@@ -43,7 +51,7 @@ export default function TableComponent() {
 
   const handleSort = (key) => {
     let direction = 'asc'
-    if (sortConfig && sortConfig.key === key && sortConfig.direction === 'asc') {
+    if (sortConfig.key === key && sortConfig.direction === 'asc') {
       direction = 'desc'
     }
     setSortConfig({ key, direction })
@@ -56,21 +64,35 @@ export default function TableComponent() {
     setRequests(sortedRequests)
   }
 
+  const handleDateRangeChange = (update) => {
+    setDateRange(update)
+    if (update[0] && update[1] && initialRequests) {
+      const filteredRequests = initialRequests.filter(request => {
+        const requestDate = new Date(request.requestRaised)
+        return requestDate >= update[0] && requestDate <= update[1]
+      })
+      setRequests(filteredRequests)
+    }
+  }
+
+  if (!initialRequests || initialRequests.length === 0) {
+    return <div className="text-center py-10">No requests available.</div>
+  }
+
   return (
-    
-    <div className="container  flex flex-col justify-center mt-[10vh] align-middle   p-4 max-w-6xl">
+    <div className="container flex flex-col justify-center mt-[10vh] align-middle p-4 max-w-6xl">
       <div className="flex justify-between items-center mb-4">
         <h1 className="text-xl font-semibold text-gray-800">Dashboard</h1>
         <div className="flex space-x-2">
-          <Button variant="outline" className="bg-green-500 hover:bg-green-600 text-white  border-none">
-            <DownloadIcon className="w-4 h-4 mr-2" />
+          <Button variant="outline" className="bg-green-500 hover:bg-green-600 text-white border-none">
+            <Download className="w-4 h-4 mr-2" />
             Download
           </Button>
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <Button variant="outline" className="bg-orange-400 hover:bg-orange-500 text-white border-none">
                 Filter
-                <ChevronDownIcon className="w-7 h-10 ml-6" />
+                <ChevronDown className="w-7 h-10 ml-6" />
               </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent className="w-56">
@@ -79,8 +101,32 @@ export default function TableComponent() {
               <DropdownMenuItem onClick={() => handleFilter('All')}>All</DropdownMenuItem>
               <DropdownMenuItem onClick={() => handleFilter('Completed')}>Completed</DropdownMenuItem>
               <DropdownMenuItem onClick={() => handleFilter('Pending')}>Pending</DropdownMenuItem>
+              <DropdownMenuSeparator />
+              <DropdownMenuLabel>Sort By</DropdownMenuLabel>
+              <DropdownMenuItem onClick={() => handleSort('requestRaised')}>Date</DropdownMenuItem>
+              <DropdownMenuItem onClick={() => handleSort('service')}>Service</DropdownMenuItem>
+              <DropdownMenuItem onClick={() => handleSort('status')}>Status</DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
+          <DatePicker
+            selectsRange={true}
+            startDate={dateRange[0]}
+            endDate={dateRange[1]}
+            onChange={handleDateRangeChange}
+            className="bg-blue-500 hover:bg-blue-600 text-white border-none rounded px-4 py-2"
+            customInput={
+              <Button variant="outline" className="bg-blue-500 hover:bg-blue-600 text-white border-none">
+                <Calendar className="w-4 h-4 mr-2" />
+                {dateRange[0] && dateRange[1] ? (
+                  <>
+                    {format(dateRange[0], "LLL dd, y")} - {format(dateRange[1], "LLL dd, y")}
+                  </>
+                ) : (
+                  <span>Pick a date range</span>
+                )}
+              </Button>
+            }
+          />
         </div>
       </div>
 
@@ -128,7 +174,11 @@ export default function TableComponent() {
                 <TableCell className="px-8 py-10">{request.requestRaised}</TableCell>
                 <TableCell className="px-8 py-10">{request.fulfilled}</TableCell>
                 <TableCell className="px-8 py-10">
-                  <span className="px-2 py-1 rounded-full text-xs">
+                  <span className={`px-2 py-1 rounded-full text-xs ${
+                    request.status === 'Completed' ? 'bg-green-100 text-green-800' :
+                    request.status === 'Confirmed' ? 'bg-blue-100 text-blue-800' :
+                    'bg-yellow-100 text-yellow-800'
+                  }`}>
                     {request.status}
                   </span>
                 </TableCell>
