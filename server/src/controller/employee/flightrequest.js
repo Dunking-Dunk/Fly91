@@ -43,22 +43,6 @@ export const addFlightRequest = async (req, res) => {
             },
         });
 
-        // Create a new FlightRequest linked to the ServiceRequest
-        // const flightRequest = await prisma.flightRequest.create({
-        //     data: {
-        //         serviceRequestID: serviceRequest.serviceRequestID,
-        //         tripType: type, // Should be an enum value
-        //         origin,
-        //         destination,
-        //         departureDate: new Date(dep_date),
-        //         arrivalDate: type === "One_Way" ? null : new Date(time_arrival),
-        //         departureTimePreference: time_preference_dep ? new Date(time_preference_dep) : null,
-        //         arrivalTimePreference: time_preference_arrival ? new Date(time_preference_arrival) : null,
-        //         createdAt: new Date(),
-        //         class: 'Business'
-        //     },
-        // });
-
         const flightRequests = await prisma.flightRequest.create({
             data: {
                 serviceRequestID: serviceRequest.serviceRequestID,
