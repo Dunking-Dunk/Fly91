@@ -27,7 +27,7 @@ export default function ServiceForm() {
   };
 
   return (
-    <div className="w-full max-w-3xl mx-auto mt-32 py-10 px-16 bg-white text-[#939393] rounded-lg shadow relative">
+    <div className="w-full max-w-3xl ml-1 mt-4 h-fit py-10 px-16 bg-white text-[#939393] rounded-lg shadow relative">
       {showBanner && (
         <ConfirmationBanner
           onClose={handleHideBanner}

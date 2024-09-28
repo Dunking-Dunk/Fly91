@@ -1,13 +1,18 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
+import ProfileIcon from "../../../public/profile_icon.png";
+import logo from "../../../public/logo.svg";
+import logout_icon from "../../../public/logout.png";
 
 const Sidebar = () => {
+  const navigate = useNavigate();
   return (
     <div className="h-full w-full pl-4 pr-2 py-4">
-<div className="flex flex-col items-center gap-[10px] w-full h-full bg-white rounded-lg">
-        <img src="logo.svg" alt="logo" className="my-10 w-20" />
+      <div className="flex flex-col items-center gap-[10px] w-full h-full bg-white rounded-lg">
+        <img src={logo} alt="logo" className="my-10 w-20" />
         <div className="flex p-2 justify-between bg-gray-100 rounded-2xl w-[80%]">
           <img
-            src="profile_icon.png"
+            src={ProfileIcon}
             alt="profile-icon"
             className="object-contain ml-1"
           />
@@ -23,8 +28,9 @@ const Sidebar = () => {
         </div>
 
         <div className="flex-grow"></div>
-
-        <img src="logout.png" alt="logout" className="my-[20px]" />
+        <button onClick={() => navigate("/login")}>
+          <img src={logout_icon} alt="logout" className="my-[20px]" />{" "}
+        </button>
       </div>
     </div>
   );

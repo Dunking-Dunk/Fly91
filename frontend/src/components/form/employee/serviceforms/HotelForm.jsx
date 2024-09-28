@@ -7,40 +7,79 @@ import { Input } from "@/components/ui/input";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Button } from "@/components/ui/button";
 
-// Zod validation schema
-const hotelFormSchema = z.object({
-  origin: z.string().min(1, "Origin is required"),
-  departure: z.string().min(1, "Departure is required"),
-  enableCalendar: z.boolean(),
-  departureDate: z
-    .string()
-    .min(1, "Departure date is required")
-    .refine((val) => !isNaN(Date.parse(val)), {
-      message: "Invalid departure date format",
-    }),
-  arrivalDate: z
-    .string()
-    .min(1, "Arrival date is required")
-    .refine((val) => !isNaN(Date.parse(val)), {
-      message: "Invalid arrival date format",
-    }),
-  departureTime: z.string().optional(),
-  arrivalTime: z.string().optional(),
-});
+const hotelFormSchema = z
+  .object({
+    city: z
+      .string()
+      .min(1, "City is required")
+      .max(50, "City name is too long"),
+    state: z
+      .string()
+      .min(1, "State is required")
+      .max(50, "State name is too long"),
+    enableCalendar: z.boolean(),
+    checkInDate: z
+      .string()
+      .min(1, "Check-in date is required")
+      .refine((val) => !isNaN(Date.parse(val)), {
+        message: "Invalid check-in date format",
+      })
+      .refine((val) => new Date(val) >= new Date(), {
+        message: "Check-in date must be today or in the future",
+      }),
+    checkOutDate: z
+      .string()
+      .min(1, "Check-out date is required")
+      .refine((val) => !isNaN(Date.parse(val)), {
+        message: "Invalid check-out date format",
+      })
+      .refine((val) => new Date(val) > new Date(), {
+        message: "Check-out date must be in the future",
+      }),
+    checkInTime: z
+      .string()
+      .optional()
+      .refine((val) => !val || /^([01]\d|2[0-3]):([0-5]\d)$/.test(val), {
+        message: "Invalid time format. Use HH:MM",
+      }),
+    checkOutTime: z
+      .string()
+      .optional()
+      .refine((val) => !val || /^([01]\d|2[0-3]):([0-5]\d)$/.test(val), {
+        message: "Invalid time format. Use HH:MM",
+      }),
+  })
+  .refine(
+    (data) => {
+      if (data.checkInDate && data.checkOutDate) {
+        return new Date(data.checkOutDate) > new Date(data.checkInDate);
+      }
+      return true;
+    },
+    {
+      message: "Check-out date must be after check-in date",
+      path: ["checkOutDate"],
+    }
+  );
 
-export default function HotelForm({ onShowBanner }) {
+export default function HotelBookingForm({ onShowBanner }) {
   const [showWarning, setShowWarning] = useState(false);
 
-  const { control, handleSubmit, setValue } = useForm({
+  const {
+    control,
+    handleSubmit,
+    setValue,
+    formState: { errors },
+  } = useForm({
     resolver: zodResolver(hotelFormSchema),
     defaultValues: {
-      origin: "",
-      departure: "",
+      city: "",
+      state: "",
       enableCalendar: false,
-      departureDate: "",
-      arrivalDate: "",
-      departureTime: "",
-      arrivalTime: "",
+      checkInDate: "",
+      checkOutDate: "",
+      checkInTime: "",
+      checkOutTime: "",
     },
   });
 
@@ -58,94 +97,136 @@ export default function HotelForm({ onShowBanner }) {
   };
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)}>
-      <div className="grid grid-cols-2 gap-4 mt-8 mb-4">
+    <form onSubmit={handleSubmit(onSubmit)} className="mt-7 space-y-6">
+      <div className="grid grid-cols-2 gap-4">
         <div>
           <Controller
-            name="origin"
+            name="city"
             control={control}
             render={({ field }) => (
-              <Input {...field} className="p-5" placeholder="Origin" />
+              <Input {...field} className="p-6 py-7" placeholder="City" />
             )}
           />
+          {errors.city && (
+            <p className="text-red-500 text-xs">{errors.city.message}</p>
+          )}
         </div>
         <div>
           <Controller
-            name="departure"
+            name="state"
             control={control}
             render={({ field }) => (
-              <Input {...field} className="p-5" placeholder="Departure" />
+              <Input {...field} className="p-6 py-7" placeholder="State" />
             )}
           />
+          {errors.state && (
+            <p className="text-red-500 text-xs">{errors.state.message}</p>
+          )}
         </div>
       </div>
 
-      <div className="flex justify-between items-center space-x-2 mb-4">
-        <div className="flex items-center space-x-2">
+      <div className="flex items-center space-x-2">
+        <Controller
+          name="enableCalendar"
+          control={control}
+          render={({ field }) => (
+            <Checkbox
+              id="enableCalendar"
+              onCheckedChange={handleEnableCalendar}
+              checked={field.value}
+            />
+          )}
+        />
+        <Label htmlFor="enableCalendar">Enable Calendar from Tomorrow</Label>
+      </div>
+      {showWarning && (
+        <p className="text-red-500 text-xs">
+          *The copy of this request will be sent to CEO
+        </p>
+      )}
+
+      <div className="grid grid-cols-2 gap-4">
+        <div>
           <Controller
-            name="enableCalendar"
+            name="checkInDate"
             control={control}
             render={({ field }) => (
-              <Checkbox
-                id="enableCalendarHotel"
-                onCheckedChange={handleEnableCalendar}
-                checked={field.value}
+              <Input
+                {...field}
+                className="p-6 py-7 justify-end"
+                type="date"
+                placeholder="Check-in Date"
               />
             )}
           />
-          <Label htmlFor="enableCalendarHotel">
-            Enable Calendar from Tomorrow
-          </Label>
-        </div>
-        {showWarning && (
-          <span className="text-red-500 text-xs">
-            *The copy of this request will be sent to CEO
-          </span>
-        )}
-      </div>
-
-      <div className="grid grid-cols-2 gap-4 mb-4">
-        <div>
-          <Controller
-            name="departureDate"
-            control={control}
-            render={({ field }) => (
-              <Input {...field} className="p-5" type="date" />
-            )}
-          />
+          {errors.checkInDate && (
+            <p className="text-red-500 text-xs">{errors.checkInDate.message}</p>
+          )}
         </div>
         <div>
           <Controller
-            name="arrivalDate"
+            name="checkOutDate"
             control={control}
             render={({ field }) => (
-              <Input {...field} className="p-5" type="date" />
+              <Input
+                {...field}
+                className="p-6 py-7 justify-end"
+                type="date"
+                placeholder="Check-out Date"
+              />
             )}
           />
+          {errors.checkOutDate && (
+            <p className="text-red-500 text-xs">
+              {errors.checkOutDate.message}
+            </p>
+          )}
         </div>
       </div>
 
-      <div className="mb-4">
+      <div>
         <Label>Time Preference</Label>
-        <div className="w-1/2 gap-4 mt-2">
-          <Controller
-            name="departureTime"
-            control={control}
-            render={({ field }) => (
-              <Input {...field} className="mb-4 p-5" placeholder="Departure" />
+        <div className="grid grid-cols-2 gap-4 mt-4">
+          <div>
+            <Controller
+              name="checkInTime"
+              control={control}
+              render={({ field }) => (
+                <Input
+                  {...field}
+                  className="p-6 py-7"
+                  placeholder="Check-in Time"
+                />
+              )}
+            />
+            {errors.checkInTime && (
+              <p className="text-red-500 text-xs">
+                {errors.checkInTime.message}
+              </p>
             )}
-          />
-          <Controller
-            name="arrivalTime"
-            control={control}
-            render={({ field }) => (
-              <Input {...field} className="p-5" placeholder="Arrival" />
+          </div>
+          <div>
+            <Controller
+              name="checkOutTime"
+              control={control}
+              render={({ field }) => (
+                <Input
+                  {...field}
+                  className="p-6 py-7"
+                  placeholder="Check-out Time"
+                />
+              )}
+            />
+            {errors.checkOutTime && (
+              <p className="text-red-500 text-xs">
+                {errors.checkOutTime.message}
+              </p>
             )}
-          />
+          </div>
         </div>
       </div>
 
-      <div className="flex ml-auto w-1/2 space-x-4">
+      <div className="flex w-1/2 pl-4 ml-auto space-x-4">
         <Button
           type="button"
           className="flex-1 p-6 bg-yellow-500 hover:bg-yellow-600"
