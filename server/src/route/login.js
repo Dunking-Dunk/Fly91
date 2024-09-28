@@ -2,6 +2,9 @@ import express from "express";
 import { NotFoundError } from "../error/not-found-error.js";
 import { BadRequestError } from "../error/bad-request-error.js";
 
+
+import jwt from "jsonwebtoken"
+
 import prisma from "../db/prismaClient.js";
 import resend from "../mail/mail.js"
 
@@ -83,3 +86,45 @@ router.post("/login", async (req, res) => {
 });
 
 export default router;
+
+router.post("/verify", async (req, res) => {
+    try {
+        const { otp } = req.body;
+        if (!otp) {
+            throw new BadRequestError()
+        }
+
+        const result = await prisma.otp.findFirst({
+            where: {
+                otp: otp
+            }
+        })
+        if (!result) {
+            throw new BadRequestError()
+        }
+
+        const user = await prisma.user.findUnique({
+            where: {
+                id: result.userId
+            }
+        })
+
+        await prisma.otp.delete({
+            where: {
+                userId: user.id
+            }
+        })
+
+        const token = jwt.sign(user, process.env.JWT_KEY, { algorithm: "HS256" })
+
+
+        return res.status(200)
+            .cookie("Authorization", `Bearer ${token}`, { httpOnly: true })
+            .send("OKOK")
+
+
+    } catch (error) {
+        console.error("Error authenticating:", error);
+        throw new BadRequestError();
+    }
+})
