@@ -25,18 +25,21 @@ const index = () => {
           <Routes>
             <Route path="/" element={<Dashboard />} />
             <Route path="/status" element={<Status />} />
+            <Route
+              path="/create/passenger-details"
+              element={<PassengerDetails />}
+            />
             <Route path="/create/service" element={<ServiceForm />} />
             {/* <Route path="/create/service" element={<Service />} /> */}
             <Route path="/error" element={<Error />} />
             {/* <Route path="/review-flight" element={<Rflight />} />
-        <Route path="/review-hotel" element={<Rhotel />} />
-        <Route path="/review-cab" element={<Rcab />} /> */}
+            <Route path="/review-hotel" element={<Rhotel />} />
+            <Route path="/review-cab" element={<Rcab />} /> */}
             {/* <Route path="/booking-summary" element={<BookingForm />} /> */}
 
             <Route path="/success" element={<SuccessPage />} />
             <Route path="/profile" element={<Profile />} />
             {/* <Route path="/data" element={<Data />} /> */}
-            {/* <Route path="/details" element={<PassengerDetails />} /> */}
           </Routes>
         </div>
       </div>
