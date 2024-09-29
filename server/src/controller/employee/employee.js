@@ -3,7 +3,7 @@ import prisma from '../../db/prismaClient.js';
 import { getTableData } from '../fetchData/fetchData.js';
 
 //http://localhost:8000/employee/dashboard?employeeID=FLY91-0001
-export const getEmployeeDashboardData = async (req, res) => {
+export const getEmployeeServiceRequests = async (req, res) => {
     const employeeID = req.query.employeeID;
     console.log('Fetching data for Employee ID:', employeeID);
     try {
@@ -36,7 +36,7 @@ export const getEmployeeDetails = async (req, res) => {
 
 
 //http://localhost:8000/employee/service?serviceRequestID=SRN-CAB-000146
-export const getEmployeeServiceDetails = async (req, res) => {
+export const getServiceRequestDetails = async (req, res) => {
 
     const serviceRequestID = req.query.serviceRequestID;  
     try {
