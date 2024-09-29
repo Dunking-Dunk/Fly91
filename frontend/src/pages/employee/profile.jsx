@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent } from "@/components/ui/card";
+import { useNavigate } from "react-router-dom";
 
 export default function UserProfile() {
   const [userData] = useState({
@@ -20,10 +20,10 @@ export default function UserProfile() {
     // In real case, you'd fetch from API and set the userData accordingly
     // setUserData(fetchedData);
   }, []);
-
+  const navigate = useNavigate();
   return (
-    <div className="flex  h-full   ">
-      <div className="w-[25%] bg-gray-50 border border-gray-200 flex flex-col items-center m-2 p-5 pt-10 rounded-xl">
+    <div className="flex  h-full bg-white   ">
+      <div className="w-[25%] bg-gray-50 border border-gray-200 flex flex-col items-center mr-2 p-5 pt-10 rounded-xl">
         <Avatar className="w-24 h-24 mx-auto">
           <AvatarImage
             src="/placeholder.svg?height=128&width=128"
@@ -42,8 +42,8 @@ export default function UserProfile() {
         </div>
       </div>
 
-      <div className="w-[75%] my-2 ">
-        <div className=" p-6 mb-2 bg-gray-50 border rounded-sm border-gray-200">
+      <div className="w-[75%] mb-2 ">
+        <div className=" p-6 mb-2 bg-gray-50 border rounded-lg border-gray-200">
           <h2 className="text-gray-600 ">Personal Details</h2>
           <div className="grid grid-cols-2 gap-10">
             <div className="w-full bg-white mt-2 p-3 text-gray-500 border border-gray-300 rounded-s">
@@ -83,11 +83,12 @@ export default function UserProfile() {
           </div>
         </div>
 
-        <div className="mt-2  rounded-s">
+        <div className="mt-2 flex rounded-s w-full justify-end -mb-2 ">
           <Button
             type="button"
             variant="outline"
-            className="bg-yellow-500  text-white hover:bg-yellow-600"
+            className="bg-yellow-500 ml-3 p-5 px-10 text-white  hover:bg-yellow-600"
+            onClick={() => navigate(-1)}
           >
             Back
           </Button>
