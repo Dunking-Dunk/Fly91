@@ -1,7 +1,9 @@
 import { Resend } from 'resend';
-import prisma from '../db/prismaClient.js';
-import { BadRequestError } from '../error/bad-request-error.js';
-import { NotFoundError } from '../error/not-found-error.js';
+import prisma from 'src/db/prismaClient.js';
+import { BadRequestError } from 'src/error/bad-request-error.js';
+import { NotFoundError } from 'src/error/not-found-error.js';
+
+import jwt from 'jsonwebtoken';
 
 /**
  * send email request
