@@ -12,13 +12,8 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import logo from "@/assets/images/logo.png";
-import aero from "@/assets/images/aero-1.png";
-import city from "@/assets/images/city.png";
-import cab from "@/assets/images/cab.png";
 import OtpLogin from "@/components/form/otp";
 import loginImg from "@/assets/images/loginImg.png";
-import { FaRegCopyright } from "react-icons/fa6";
 
 export default function LoginPage() {
   const [isOtpSent, setIsOtpSent] = useState(false);
@@ -43,11 +38,14 @@ export default function LoginPage() {
   }
 
   return (
-    <>
-    <div className="flex flex-row h-full">
-    <div   >
-      <img src={loginImg} alt="City" className="" />
-      </div>
+    <div className="flex min-h-screen h-[100vh]">
+      {/* Left side with logo and illustration */}
+      <img
+        src={loginImg}
+        alt="fly91 img"
+        className="object-none object-top w-[55%] -mt-6 "
+      />
+
       {/* Right side with login form */}
       <div className="w-full bg-[#ECF3F9] flex flex-col items-center justify-center p-8 relative">
         <h1 className="text-3xl font-bold mb-14 text-gray-700">Login</h1>
@@ -87,12 +85,10 @@ export default function LoginPage() {
           </div>
         )}
 
-        
-          <p className="mb-0 text-gray-600 bg-slate-300 flex text-center  absolute bottom-4 text-center">
-            <span><FaRegCopyright/></span> Copyright 2024 FLY91
-          </p>
-        
-      </div></div>
-    </>
+        <p className=" text-gray-600 absolute bottom-6">
+            @Copyright 2024 FLY91
+        </p>
+      </div>
+    </div>
   );
 }

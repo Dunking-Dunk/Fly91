@@ -1,31 +1,38 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
+// import ProfileIcon from "../../../public/profile_icon.png";
+// import logo from "../../../public/logo.svg";
+// import logout_icon from "../../../public/logout.png";
 
 const Sidebar = () => {
+  const navigate = useNavigate();
   return (
-    <>
-      <div className="flex flex-col items-center w-[15%] gap-[10px] h-[calc(100vh-7.5rem)] m-[1.5rem] fixed top-[4rem] bg-white rounded-lg">
-        <img src="logo.svg" alt="logo" className="my-10 w-20" />
-
-        <div className="flex flex-row items-center w-full px-4 h-[64px]">
-          <img src="avatar.png" alt="avatar" />
-          <div className="flex flex-col justify-center px-4 text-[#515151]">
-            <h2 className="text-sm">admin</h2>
-            <h1 className="text-md">Thiru</h1>
+    <div className="h-full w-full pl-4 pr-2 py-4">
+      <div className="flex flex-col items-center gap-[10px] w-full h-full bg-white rounded-lg">
+        <img src={'/public/logo.svg'} alt="logo" className="my-10 w-20" />
+        <div className="flex p-2 justify-between bg-gray-100 rounded-2xl w-[80%]">
+          <img
+            src={'/public/profile_icon.png'}
+            alt="profile-icon"
+            className="object-contain ml-1"
+          />
+          <div className="flex flex-col justify-center px-4 text-[#515151] mr-1 items-end ">
+            <h2 className="text-xs">admin</h2>
+            <h1 className="text-md">Thirumurugan</h1>
           </div>
         </div>
-
-        <div className="my-[15px] text-[#6C6C6C] self-start pl-4">
-          <div className="flex items-center">
-            <span className="h-6 border-l-2 border-[#6C6C6C] mr-2"></span>
-            <h2>Dashboard</h2>
+        <div className="w-full px-8 mt-[20%] ">
+          <div className="border-l-2  pl-3 border-[#6C6C6C] text-[#6C6C6C]">
+            Dashboard
           </div>
         </div>
 
         <div className="flex-grow"></div>
-
-        <img src="logout.png" alt="logout" className="my-[20px]" />
+        <button onClick={() => navigate("/login")}>
+          <img src={'/public/logout.png'} alt="logout" className="my-[20px]" />{" "}
+        </button>
       </div>
-    </>
+    </div>
   );
 };
 
