@@ -27,7 +27,10 @@ const Sidebar = () => {
           </div>
         </button>
         <div className="w-full px-8 mt-[20%] ">
-          <div className="border-l-2  pl-3 border-[#6C6C6C] text-[#6C6C6C]">
+          <div
+            className="border-l-2  pl-3 border-[#6C6C6C] text-[#6C6C6C] hover:cursor-pointer hover:text-slate-900"
+            onClick={() => navigate("/")}
+          >
             Dashboard
           </div>
         </div>

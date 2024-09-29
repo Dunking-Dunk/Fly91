@@ -1,10 +1,11 @@
-import { Button } from "@/components/ui/button"
-import success from "../../../assets/images/Success.png"
+import { Button } from "@/components/ui/button";
+import success from "../../../assets/images/success-new.svg";
+import successgif from "../../../assets/images/green-tick.gif";
 
 export default function SuccessPage() {
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen bg-white p-4">
-      <div className="text-center max-w-md">
+    <div className="flex flex-col items-center justify-center h-[83.5vh]   bg-white ">
+      <div className="text-center ">
         <img
           src={success}
           alt="Success character"
@@ -12,20 +13,22 @@ export default function SuccessPage() {
           width={100}
           height={100}
         />
-        <h1 className="text-2xl font-bold text-green-600 mb-4">Submit Sent!</h1>
-        <p className="text-gray-600 mb-2">Thank you! Your request is successfully placed.</p>
-        <p className="text-gray-600 mb-6">The travel desk is processing your request and will update with details soon.</p>
-        <p className="text-gray-800 font-semibold mb-2">Track your request: <span className="text-green-600">SRN-FLY-500022</span></p>
-        <p className="text-gray-800 font-semibold mb-8">Allocated per diem: <span className="text-green-600">25000/-</span></p>
-        <div className="flex space-x-4">
-          <Button className="flex-1 bg-yellow-400 hover:bg-yellow-500 text-black">
-            Raise another Request
-          </Button>
-          <Button className="flex-1 bg-yellow-400 hover:bg-yellow-500 text-black">
-            Track your Request
+        <h1 className="text-2xl font-bold text-green-600 mb-0">Submitted!</h1>
+        <p className="text-gray-600 mb-6">
+          Thank you! Your request is successfully placed.
+        </p>
+
+        <p className="text-gray-800 mb-2">
+          Track your request :{" "}
+          <span className="text-green-600">SNR-FLT-000122</span>
+        </p>
+
+        <div className="flex mt-6    ">
+          <Button className="m-auto  w-fit p-6 px-12 bg-yellow-400 hover:bg-yellow-500 text-white">
+            Go Home
           </Button>
         </div>
       </div>
     </div>
-  )
+  );
 }
