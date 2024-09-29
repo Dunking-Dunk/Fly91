@@ -69,21 +69,6 @@ export default function FlightBooking() {
           <div className="flex-1 p-5">
             <div className="bg-white ml-[15%] mt-[2.5%] py-10 px-10 rounded-lg shadow-sm">
               {/* Top layer */}
-              <div className="flex justify-between items-center mb-6, border border-gray-200 rounded-lg p-4 mb-2 bg-[#fafafa]">
-                <h2 className="text-md font-normal">
-                  Review Passenger Details
-                </h2>
-                <div className="flex justify-between items-center mb-6, border border-gray-200 rounded-lg p-2 bg-[#E4F6FD]">
-                  <img
-                    src={taxi}
-                    className="h-5 w-5 text-gray-500 mr-2"
-                    viewBox="0 0 20 20"
-                    fill="currentColor"
-                  />
-                  <path d="M10.894 2.553a1 1 0 00-1.788 0l-7 14a1 1 0 001.169 1.409l5-1.429A1 1 0 009 15.571V11a1 1 0 112 0v4.571a1 1 0 00.725.962l5 1.428a1 1 0 001.17-1.408l-7-14z" />
-                  <span className="text-sm text-gray-500">Cab</span>
-                </div>
-              </div>
 
               <form onSubmit={handleSubmit(onSubmit)}>
                 {/* Passenger Details Box */}
