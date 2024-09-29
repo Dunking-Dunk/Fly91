@@ -23,8 +23,9 @@ export const verify=(otp)=>async(dispatch)=>{
 export const profile=()=>async(dispatch)=>{
     try {
         dispatch(profileRequest())
-        await axios.post("/profile")
-        dispatch(profileSuccess())
+        const {data}=await axios.post("/profile")
+        console.log(data)
+        dispatch(profileSuccess(data))
 
     } catch (error) {
         dispatch(profileFail(error.response.data.message))
