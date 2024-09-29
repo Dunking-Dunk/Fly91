@@ -12,6 +12,7 @@
     },
     "keywords": [],
     "author": "",
+    "type": "module",
     "license": "ISC",
     "description": "",
     "devDependencies": {
@@ -24,6 +25,8 @@
         "jsdoc": "^4.0.3",
         "jsonwebtoken": "^9.0.2",
         "resend": "^4.0.0",
+        "chai": "^5.1.1",
+        "mocha": "^10.7.3",
         "sinon": "^19.0.2"
     }
 }
