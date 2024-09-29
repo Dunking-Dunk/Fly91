@@ -1,7 +1,7 @@
 import { Resend } from 'resend';
-import prisma from 'src/db/prismaClient.js';
-import { BadRequestError } from 'src/error/bad-request-error.js';
-import { NotFoundError } from 'src/error/not-found-error.js';
+import prisma from '../../src/db/prismaClient.js';
+import { BadRequestError } from '../../src/error/bad-request-error.js';
+import { NotFoundError } from '../../src/error/not-found-error.js';
 
 import jwt from 'jsonwebtoken';
 
@@ -11,7 +11,7 @@ import jwt from 'jsonwebtoken';
  * @param {import("@prisma/client").PrismaClient}  prisma
  * @param {string}  email
  **/
-async function sendEmailRequest(email, prisma, resend) {
+export async function sendEmailRequest(email, prisma, resend) {
     const user = await prisma.user.findUnique({
         where: {
             email: email,
