@@ -1,5 +1,7 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import TableComponent from './table';
+import { useDispatch, useSelector } from 'react-redux';
+import { getAllRequestes } from '@/store/actions/serviceAction';
 
 const requestsData = [
   {
@@ -33,6 +35,11 @@ const requestsData = [
 ];
 
 function Data() {
+  const dispatch=useDispatch()
+  useEffect(()=>{dispatch(getAllRequestes());},[])
+  const {services}= useSelector(state=>state.serviceState)
+  
+  
   return (
     <div>
       <h1 className='font-bold'>Welcome to the Dashboard</h1>

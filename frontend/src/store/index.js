@@ -1,10 +1,12 @@
-import { configureStore } from "@reduxjs/toolkit"
-import { user } from "./reducer/userReducer"
-import { service } from "./reducer/serviceReducer"
+import { combineReducers, configureStore } from "@reduxjs/toolkit"
+import userReducer from "./slices/userSlice"
+import serviceReducer from "./slices/serviceSlice"
+const reducer=combineReducers({
+    userState:userReducer,
+    serviceState:serviceReducer
 
-export const store = configureStore({
-    reducer: {
-        user,
-        service
-    }
+  })
+const store = configureStore({
+ reducer
 })
+export default store;
