@@ -1,5 +1,4 @@
-import prisma from '../../db/prismaClient.js';
-
+import { createRecord } from '../postData/postData.js';
 
 function generateSRID(requestType) {
     const upperCaseRequestType = requestType.toUpperCase();
@@ -7,7 +6,47 @@ function generateSRID(requestType) {
     return `SRN-${upperCaseRequestType}-${randomSixDigitNumber}`;
 }
 
-export const createServiceRequest = async (req, res) => {
+async function AddrequestToServiceTable(serviceTable, data) {
+    const addSpecifiedRequest = await createRecord(serviceTable, data);
+    console.log(`Added to ${serviceTable} request`);
+}
+
+async function createServiceRequestDataHandler(serviceRequestData, serviceType, additionalDetails) {
+    const { serviceRequestID, ...restData } = serviceRequestData;
+
+    try {
+        const isservicecreated = await createRecord('serviceRequest', {
+            serviceRequestID,
+            ...restData,
+            status: 'Submitted',
+            statusTimestamp: new Date(),
+            createdAt: new Date(),
+            lastModifiedAt: new Date()
+        });
+        const ServiceRequestNumber = isservicecreated.serviceRequestID;
+        console.log('Added ' + ServiceRequestNumber + ' to service request Table')
+
+        let additionalData;
+        const serviceTableMap = {
+            'Flight': 'flightRequest',
+            'Hotel': 'hotelRequest',
+            'Cab': 'cabRequest',
+        };
+        const serviceTable = serviceTableMap[serviceType];
+        if (!serviceTable) throw new Error('Invalid service type');
+
+        AddrequestToServiceTable(serviceTable, {
+            serviceRequestID: ServiceRequestNumber,
+            ...additionalDetails,
+        });
+
+        return { serviceRequestID, additionalData };
+    } catch (error) {
+        console.error('Error creating service request:', error);
+        throw new Error('Failed to create service request');
+    }
+};
+export async function createServiceRequest(req, res) {
     const {
         employeeID,
         firstName,
@@ -21,62 +60,25 @@ export const createServiceRequest = async (req, res) => {
         additionalDetails
     } = req.body;
 
+    const fullname = `${firstName} ${lastName}`;
+    const serviceRequestID = generateSRID(serviceType);
+    const serviceRequestData = {
+        serviceRequestID,
+        employeeID,
+        name: fullname,
+        department,
+        mobileNumber,
+        reasonForTravel,
+        hodApprovalAttachment,
+        serviceType
+    };
+
     try {
-        const serviceRequestID = generateSRID(serviceType);
-        const fullname = firstName+" "+lastName;
-        const newServiceRequest = await prisma.serviceRequest.create({
-            data: {
-                serviceRequestID,  
-                serviceType,
-                employeeID: employeeID,  
-                name: fullname,
-                department,
-                mobileNumber,
-                reasonForTravel,  
-                hodApprovalAttachment,
-                status: 'Submitted',
-                statusTimestamp: new Date(),  
-                createdAt: new Date(),
-                lastModifiedAt: new Date()
-            }
-        });
-
-        console.log('newservice req:'+newServiceRequest)
-        let additionalData;
-
-        if (serviceType === 'Flight') {
-            additionalData = await prisma.flightRequest.create({
-                data: {
-                    serviceRequestID: newServiceRequest.serviceRequestID,
-                    ...additionalDetails 
-                }
-            });
-        } else if (serviceType === 'Hotel') {
-            additionalData = await prisma.hotelRequest.create({
-                data: {
-                    serviceRequestID: newServiceRequest.serviceRequestID,
-                    ...additionalDetails   
-                }
-            });
-        } else if (serviceType === 'Cab') {
-            additionalData = await prisma.cabRequest.create({
-                data: {
-                    serviceRequestID: newServiceRequest.serviceRequestID,
-                    ...additionalDetails 
-                }
-            });
-        } else {
-            
-            return res.status(400).json({ error: 'Invalid service type' });
-        }
-
+        const { newServiceRequest, additionalData } = await createServiceRequestDataHandler(serviceRequestData, serviceType, additionalDetails);
         res.status(201).json({
-            serviceRequest: newServiceRequest,
-            additionalDetails: additionalData
+            status: "Success"
         });
-
     } catch (error) {
-        console.error('Error creating service request:', error);
-        res.status(500).json({ error: 'Failed to create service request' });
+        res.status(500).json({ error: error.message });
     }
 };
