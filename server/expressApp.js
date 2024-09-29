@@ -30,6 +30,14 @@ app.get("/testt", (req, res) => {
     res.status(200).send("hola");
 });
 
+app.use((err, req, res, next) => {
+    console.error(err.stack);
+    res.status(err.status || 500).json({
+        message: err.message || "Something went wrong!",
+        error: process.env.NODE_ENV === "production" ? {} : err, // Hide detailed error info in production
+    });
+});
+
 app.use(ErrorHandler);
 
 export default app;

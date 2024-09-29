@@ -81,7 +81,7 @@ router.post("/login", async (req, res) => {
             .json({ message: "OK", error: {} });
     } catch (error) {
         console.error("Error creating OTP:", error);
-        throw new BadRequestError();
+        next(error)
     }
 });
 
