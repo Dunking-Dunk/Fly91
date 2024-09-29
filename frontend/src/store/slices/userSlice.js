@@ -3,8 +3,8 @@ import { createSlice} from '@reduxjs/toolkit'
 
 const initialState = {
  loading:false,
- isLogined:false,
- isVerified:false
+ isLogined:true,
+ isVerified:true
 }
 
 export const userSlice = createSlice({
@@ -72,6 +72,9 @@ loginSuccess,
 loginFail,
 verificationRequest,
 verificationSuccess,
-verificationFail
+verificationFail,
+profileRequest,
+profileSuccess,
+profileFail
 }=actions;
 export default reducer;

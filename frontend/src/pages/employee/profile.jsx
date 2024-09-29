@@ -2,27 +2,36 @@ import { useState, useEffect } from "react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { useNavigate } from "react-router-dom";
+import { useDispatch,useSelector } from "react-redux";
+import { myProfile} from "@/store/actions/userAction"; // Ensure that `profile` is an action creator
 
 export default function UserProfile() {
+  const dispatch = useDispatch();
+
+  // Correct useEffect for async action
+  useEffect(() => {
+    const fetchProfile = async () => {
+      await dispatch(myProfile()); // Assuming `profile()` is a thunk/action creator
+    };
+    fetchProfile();
+  }, []); // Ensure `dispatch` is in the dependency array
+  const{profile}= useSelector(state=>state.userState)
+  console.log("profile",profile)
   const [userData] = useState({
-    firstName: "Sanjana",
+    firstName:profile?.name|| "First Name",
     lastName: "Nair",
-    employeeId: "EMP12345",
-    department: "Engineering",
-    mobileNumber: "+91 94373 34344",
-    email: "sanjana@fly91.com",
-    managerName: "Ravi Kumar",
+    employeeId:profile?.employeeId|| "EMP12345",
+    department:profile?.department|| "Engineering",
+    mobileNumber:profile?.phone|| "+91 94373 34344",
+    email:profile?.email|| "sanjana@fly91.com",
+    managerName:profile?.reportingManagerId ||"Ravi Kumar",
     managerEmail: "ravi.kumar@fly91.com",
   });
 
-  useEffect(() => {
-    // Simulate fetching data from the backend
-    // In real case, you'd fetch from API and set the userData accordingly
-    // setUserData(fetchedData);
-  }, []);
   const navigate = useNavigate();
+
   return (
-    <div className="flex  h-full bg-white   ">
+    <div className="flex h-full bg-white">
       <div className="w-[25%] bg-gray-50 border border-gray-200 flex flex-col items-center mr-2 p-5 pt-10 rounded-xl">
         <Avatar className="w-24 h-24 mx-auto">
           <AvatarImage
@@ -31,7 +40,7 @@ export default function UserProfile() {
           />
           <AvatarFallback>SN</AvatarFallback>
         </Avatar>
-        <div className="text-center mt-4 ">
+        <div className="text-center mt-4">
           <h2 className="text-xl text-gray-500 font-semibold">
             {userData.firstName}
           </h2>
@@ -42,9 +51,9 @@ export default function UserProfile() {
         </div>
       </div>
 
-      <div className="w-[75%] mb-2 ">
-        <div className=" p-6 mb-2 bg-gray-50 border rounded-lg border-gray-200">
-          <h2 className="text-gray-600 ">Personal Details</h2>
+      <div className="w-[75%] mb-2">
+        <div className="p-6 mb-2 bg-gray-50 border rounded-lg border-gray-200">
+          <h2 className="text-gray-600">Personal Details</h2>
           <div className="grid grid-cols-2 gap-10">
             <div className="w-full bg-white mt-2 p-3 text-gray-500 border border-gray-300 rounded-s">
               {userData.firstName}
@@ -83,11 +92,11 @@ export default function UserProfile() {
           </div>
         </div>
 
-        <div className="mt-2 flex rounded-s w-full justify-end -mb-2 ">
+        <div className="mt-2 flex rounded-s w-full justify-end -mb-2">
           <Button
             type="button"
             variant="outline"
-            className="bg-yellow-500 ml-3 p-5 px-10 text-white  hover:bg-yellow-600"
+            className="bg-yellow-500 ml-3 p-5 px-10 text-white hover:bg-yellow-600"
             onClick={() => navigate(-1)}
           >
             Back

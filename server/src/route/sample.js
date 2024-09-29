@@ -4,6 +4,6 @@ import { getSampleData } from '../controller/sample.js';
 const router = Router();
 
 
-router.get('/', SampleDatgeta);
+router.get('/', getSampleData);
 
 export default router;

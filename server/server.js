@@ -1,7 +1,9 @@
 import app from "./expressApp.js"
 import pool from './db.js';
+import cors from 'cors'
 
 const PORT = process.env.PORT || 8000;
+
 
 app.get('/db-status', async (req, res) => {
     try {
