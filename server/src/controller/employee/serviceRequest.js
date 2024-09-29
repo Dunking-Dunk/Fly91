@@ -1,3 +1,4 @@
+import prisma from '../../db/prismaClient.js'; 
 import { createRecord } from '../postData/postData.js';
 
 function generateSRID(requestType) {
@@ -6,12 +7,12 @@ function generateSRID(requestType) {
     return `SRN-${upperCaseRequestType}-${randomSixDigitNumber}`;
 }
 
-async function AddrequestToServiceTable(serviceTable, data) {
-    const addSpecifiedRequest = await createRecord(serviceTable, data);
+async function AddrequestToServiceType(serviceTable, data, prisma) {
+    await createRecord(serviceTable, data, prisma); 
     console.log(`Added to ${serviceTable} request`);
 }
 
-async function createServiceRequestDataHandler(serviceRequestData, serviceType, additionalDetails) {
+async function createServiceRequestDataHandler(serviceRequestData, serviceType, additionalDetails, prisma) {
     const { serviceRequestID, ...restData } = serviceRequestData;
 
     try {
@@ -22,11 +23,11 @@ async function createServiceRequestDataHandler(serviceRequestData, serviceType, 
             statusTimestamp: new Date(),
             createdAt: new Date(),
             lastModifiedAt: new Date()
-        });
-        const ServiceRequestNumber = isservicecreated.serviceRequestID;
-        console.log('Added ' + ServiceRequestNumber + ' to service request Table')
+        }, prisma);
 
-        let additionalData;
+        const ServiceRequestNumber = isservicecreated.serviceRequestID;
+        console.log('Added ' + ServiceRequestNumber + ' to service request Table');
+
         const serviceTableMap = {
             'Flight': 'flightRequest',
             'Hotel': 'hotelRequest',
@@ -35,17 +36,19 @@ async function createServiceRequestDataHandler(serviceRequestData, serviceType, 
         const serviceTable = serviceTableMap[serviceType];
         if (!serviceTable) throw new Error('Invalid service type');
 
-        AddrequestToServiceTable(serviceTable, {
+        
+        await AddrequestToServiceType(serviceTable, {
             serviceRequestID: ServiceRequestNumber,
             ...additionalDetails,
-        });
+        }, prisma); 
 
-        return { serviceRequestID, additionalData };
+        return { serviceRequestID };
     } catch (error) {
         console.error('Error creating service request:', error);
         throw new Error('Failed to create service request');
     }
 };
+
 export async function createServiceRequest(req, res) {
     const {
         employeeID,
@@ -74,11 +77,11 @@ export async function createServiceRequest(req, res) {
     };
 
     try {
-        const { newServiceRequest, additionalData } = await createServiceRequestDataHandler(serviceRequestData, serviceType, additionalDetails);
+        await createServiceRequestDataHandler(serviceRequestData, serviceType, additionalDetails, prisma); // Pass prisma here
         res.status(201).json({
             status: "Success"
         });
     } catch (error) {
         res.status(500).json({ error: error.message });
     }
-};
+}

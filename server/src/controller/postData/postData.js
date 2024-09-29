@@ -1,6 +1,6 @@
 import prisma from '../../db/prismaClient.js';
 
-export const createRecord = async (modelName, data) => {
+export const createRecord = async (modelName, data, prisma) => {
     try {
         return await prisma[modelName].create({ data });
     } catch (error) {
@@ -9,12 +9,12 @@ export const createRecord = async (modelName, data) => {
     }
 };
 
-export const handlePostRequest = async (req, res, modelName, relatedModelHandler = null) => {
+export const handlePostRequest = async (req, res, modelName, relatedModelHandler = null, prisma) => {
     try {
         const data = req.body;
-        const createdRecord = await createRecord(modelName, data);
+        const createdRecord = await createRecord(modelName, data, prisma);
         if (relatedModelHandler) {
-            await relatedModelHandler(createdRecord, req.body);
+            await relatedModelHandler(createdRecord, req.body, prisma);
         }
         res.status(201).json({
             message: `${modelName} created successfully`,
