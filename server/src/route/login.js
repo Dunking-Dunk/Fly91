@@ -10,9 +10,10 @@ import resend from "../mail/mail.js"
 
 const router = express.Router();
 
-router.post("/login", async (req, res) => {
-    try {
+router.post("/login", async (req, res, next) => {
+
         const { email } = req.body;
+
         if (!email) {
             throw new BadRequestError()
         }
@@ -23,12 +24,10 @@ router.post("/login", async (req, res) => {
             }
         });
 
-
-
         if (!user) {
             throw new NotFoundError();
         }
-        
+
         const resss = await prisma.otp.findFirst({
             where: {
                 userId: user.id
@@ -70,22 +69,15 @@ router.post("/login", async (req, res) => {
 
         await resend.emails.send({
             from: 'onboarding@resend.dev',
-            to: 'sivaram.asdf@gmail.com',
+            to: 'hursunss@gmail.com',
             subject: 'Hello World',
             html: `${otp}`
         });
 
-
         return res
             .status(200)
             .json({ message: "OK", error: {} });
-    } catch (error) {
-        console.error("Error creating OTP:", error);
-        next(error)
-    }
 });
-
-export default router;
 
 router.post("/verify", async (req, res) => {
     try {
@@ -128,3 +120,5 @@ router.post("/verify", async (req, res) => {
         throw new BadRequestError();
     }
 })
+
+export default router;

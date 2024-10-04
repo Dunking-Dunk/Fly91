@@ -15,7 +15,7 @@ app.get('/db-status', async (req, res) => {
 
 export const StartServer = async () => {
 
-    app.listen(PORT, () => {
+    app.listen(8000, () => {
         console.log("Listening to: ", PORT)
     })
 
